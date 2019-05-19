@@ -13,6 +13,8 @@
 		8485841B229177C2006064A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8485841A229177C2006064A0 /* Assets.xcassets */; };
 		8485841E229177C2006064A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8485841C229177C2006064A0 /* LaunchScreen.storyboard */; };
 		84858429229177C2006064A0 /* KoCoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858428229177C2006064A0 /* KoCoTests.swift */; };
+		8485843722917999006064A0 /* AddMediaPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485843622917999006064A0 /* AddMediaPlayerViewController.swift */; };
+		8485843922917A9D006064A0 /* DeviceOverviewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485843822917A9D006064A0 /* DeviceOverviewTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		84858424229177C2006064A0 /* KoCoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KoCoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84858428229177C2006064A0 /* KoCoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoCoTests.swift; sourceTree = "<group>"; };
 		8485842A229177C2006064A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8485843622917999006064A0 /* AddMediaPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMediaPlayerViewController.swift; sourceTree = "<group>"; };
+		8485843822917A9D006064A0 /* DeviceOverviewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceOverviewTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,7 @@
 		84858412229177C1006064A0 /* KoCo */ = {
 			isa = PBXGroup;
 			children = (
+				8485843522917904006064A0 /* UI */,
 				84858413229177C1006064A0 /* AppDelegate.swift */,
 				84858415229177C1006064A0 /* ViewController.swift */,
 				84858417229177C1006064A0 /* Main.storyboard */,
@@ -94,6 +99,15 @@
 				8485842A229177C2006064A0 /* Info.plist */,
 			);
 			path = KoCoTests;
+			sourceTree = "<group>";
+		};
+		8485843522917904006064A0 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				8485843622917999006064A0 /* AddMediaPlayerViewController.swift */,
+				8485843822917A9D006064A0 /* DeviceOverviewTableViewController.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -197,6 +211,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8485843922917A9D006064A0 /* DeviceOverviewTableViewController.swift in Sources */,
+				8485843722917999006064A0 /* AddMediaPlayerViewController.swift in Sources */,
 				84858416229177C1006064A0 /* ViewController.swift in Sources */,
 				84858414229177C1006064A0 /* AppDelegate.swift in Sources */,
 			);
