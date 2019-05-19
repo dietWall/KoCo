@@ -1,0 +1,466 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84858414229177C1006064A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858413229177C1006064A0 /* AppDelegate.swift */; };
+		84858416229177C1006064A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858415229177C1006064A0 /* ViewController.swift */; };
+		84858419229177C1006064A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84858417229177C1006064A0 /* Main.storyboard */; };
+		8485841B229177C2006064A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8485841A229177C2006064A0 /* Assets.xcassets */; };
+		8485841E229177C2006064A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8485841C229177C2006064A0 /* LaunchScreen.storyboard */; };
+		84858429229177C2006064A0 /* KoCoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858428229177C2006064A0 /* KoCoTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84858425229177C2006064A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84858408229177C1006064A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8485840F229177C1006064A0;
+			remoteInfo = KoCo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		84858410229177C1006064A0 /* KoCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84858413229177C1006064A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		84858415229177C1006064A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		84858418229177C1006064A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8485841A229177C2006064A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8485841D229177C2006064A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8485841F229177C2006064A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84858424229177C2006064A0 /* KoCoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KoCoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84858428229177C2006064A0 /* KoCoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoCoTests.swift; sourceTree = "<group>"; };
+		8485842A229177C2006064A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8485840D229177C1006064A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84858421229177C2006064A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84858407229177C1006064A0 = {
+			isa = PBXGroup;
+			children = (
+				84858412229177C1006064A0 /* KoCo */,
+				84858427229177C2006064A0 /* KoCoTests */,
+				84858411229177C1006064A0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84858411229177C1006064A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84858410229177C1006064A0 /* KoCo.app */,
+				84858424229177C2006064A0 /* KoCoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84858412229177C1006064A0 /* KoCo */ = {
+			isa = PBXGroup;
+			children = (
+				84858413229177C1006064A0 /* AppDelegate.swift */,
+				84858415229177C1006064A0 /* ViewController.swift */,
+				84858417229177C1006064A0 /* Main.storyboard */,
+				8485841A229177C2006064A0 /* Assets.xcassets */,
+				8485841C229177C2006064A0 /* LaunchScreen.storyboard */,
+				8485841F229177C2006064A0 /* Info.plist */,
+			);
+			path = KoCo;
+			sourceTree = "<group>";
+		};
+		84858427229177C2006064A0 /* KoCoTests */ = {
+			isa = PBXGroup;
+			children = (
+				84858428229177C2006064A0 /* KoCoTests.swift */,
+				8485842A229177C2006064A0 /* Info.plist */,
+			);
+			path = KoCoTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8485840F229177C1006064A0 /* KoCo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8485842D229177C2006064A0 /* Build configuration list for PBXNativeTarget "KoCo" */;
+			buildPhases = (
+				8485840C229177C1006064A0 /* Sources */,
+				8485840D229177C1006064A0 /* Frameworks */,
+				8485840E229177C1006064A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KoCo;
+			productName = KoCo;
+			productReference = 84858410229177C1006064A0 /* KoCo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		84858423229177C2006064A0 /* KoCoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84858430229177C2006064A0 /* Build configuration list for PBXNativeTarget "KoCoTests" */;
+			buildPhases = (
+				84858420229177C2006064A0 /* Sources */,
+				84858421229177C2006064A0 /* Frameworks */,
+				84858422229177C2006064A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84858426229177C2006064A0 /* PBXTargetDependency */,
+			);
+			name = KoCoTests;
+			productName = KoCoTests;
+			productReference = 84858424229177C2006064A0 /* KoCoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84858408229177C1006064A0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "TH Rosenheim";
+				TargetAttributes = {
+					8485840F229177C1006064A0 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					84858423229177C2006064A0 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 8485840F229177C1006064A0;
+					};
+				};
+			};
+			buildConfigurationList = 8485840B229177C1006064A0 /* Build configuration list for PBXProject "KoCo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84858407229177C1006064A0;
+			productRefGroup = 84858411229177C1006064A0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8485840F229177C1006064A0 /* KoCo */,
+				84858423229177C2006064A0 /* KoCoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8485840E229177C1006064A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8485841E229177C2006064A0 /* LaunchScreen.storyboard in Resources */,
+				8485841B229177C2006064A0 /* Assets.xcassets in Resources */,
+				84858419229177C1006064A0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84858422229177C2006064A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8485840C229177C1006064A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84858416229177C1006064A0 /* ViewController.swift in Sources */,
+				84858414229177C1006064A0 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84858420229177C2006064A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84858429229177C2006064A0 /* KoCoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84858426229177C2006064A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8485840F229177C1006064A0 /* KoCo */;
+			targetProxy = 84858425229177C2006064A0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		84858417229177C1006064A0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84858418229177C1006064A0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8485841C229177C2006064A0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8485841D229177C2006064A0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8485842B229177C2006064A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8485842C229177C2006064A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8485842E229177C2006064A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KoCo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thro.KoCo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8485842F229177C2006064A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KoCo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thro.KoCo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		84858431229177C2006064A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KoCoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thro.KoCoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KoCo.app/KoCo";
+			};
+			name = Debug;
+		};
+		84858432229177C2006064A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = KoCoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = thro.KoCoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KoCo.app/KoCo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8485840B229177C1006064A0 /* Build configuration list for PBXProject "KoCo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8485842B229177C2006064A0 /* Debug */,
+				8485842C229177C2006064A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8485842D229177C2006064A0 /* Build configuration list for PBXNativeTarget "KoCo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8485842E229177C2006064A0 /* Debug */,
+				8485842F229177C2006064A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84858430229177C2006064A0 /* Build configuration list for PBXNativeTarget "KoCoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84858431229177C2006064A0 /* Debug */,
+				84858432229177C2006064A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84858408229177C1006064A0 /* Project object */;
+}
