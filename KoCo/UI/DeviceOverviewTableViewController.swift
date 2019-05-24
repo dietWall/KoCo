@@ -2,46 +2,99 @@
 //  DeviceOverviewTableViewController.swift
 //  KoCo
 //
-//  Created by admin on 19.05.19.
+//  Created by dietWall on 19.05.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
 import UIKit
 
-class DeviceOverviewTableViewController: UITableViewController {
+protocol KodiPlayerLoaderProtocol{
+    func loadData() -> [KodiPlayer]
+}
 
+
+extension KodiPlayerLoaderProtocol{
+    
+    func loadData() -> [KodiPlayer]{
+        
+        var url: URL
+        
+        do{
+            url = try FileManager.default.url(
+                for: FileManager.SearchPathDirectory.applicationDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true)
+            
+            url.appendPathComponent("players.json")
+            
+            if let data = try? Data(contentsOf: url){
+                let decoder = JSONDecoder()
+                
+                let result = try decoder.decode([KodiPlayer].self, from: data)
+                
+                print(result.count)
+                
+                return result
+            }else{
+                
+            }
+        }
+        catch let error{
+            print("Filemanager hat geschmissen: \(error)")
+        }
+        return [KodiPlayer]()           //not found, error, etc: return an empty array
+    }
+}
+
+
+
+class DeviceOverviewTableViewController: UITableViewController, KodiPlayerLoaderProtocol {
+   
+    var mediaPlayers = [KodiPlayer](){
+        didSet{
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Media Centers"
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.mediaPlayers = loadData()
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return mediaPlayers.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicPlayerCell", for: indexPath)
 
         // Configure the cell...
-
+        cell.textLabel?.text = mediaPlayers[indexPath.row].name
+        cell.detailTextLabel?.text = mediaPlayers[indexPath.row].url
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -87,5 +140,9 @@ class DeviceOverviewTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }
+
+
+
+
+

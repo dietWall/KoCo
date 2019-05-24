@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="6DU-Qa-Oso">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BasicPlayerCell" id="6DU-Qa-Oso">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6DU-Qa-Oso" id="pZG-h5-nkf">
@@ -33,13 +33,15 @@
                             <outlet property="delegate" destination="8mn-zw-Ycg" id="yK2-Ew-Pg8"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="cmp-yT-7MT">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kca-7A-Xd4">
                             <connections>
-                                <segue destination="fak-8w-q0v" kind="show" id="rF0-iI-JYt"/>
+                                <segue destination="fak-8w-q0v" kind="show" id="WRT-I9-BHj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EPV-GM-Zo3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
