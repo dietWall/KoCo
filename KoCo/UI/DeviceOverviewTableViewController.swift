@@ -15,41 +15,12 @@ protocol KodiPlayerLoaderProtocol{
 
 extension KodiPlayerLoaderProtocol{
     
-    func loadData() -> [KodiPlayer]{
-        
-        var url: URL
-        
-        do{
-            url = try FileManager.default.url(
-                for: FileManager.SearchPathDirectory.applicationDirectory,
-                in: .userDomainMask,
-                appropriateFor: nil,
-                create: true)
-            
-            url.appendPathComponent("players.json")
-            
-            if let data = try? Data(contentsOf: url){
-                let decoder = JSONDecoder()
-                
-                let result = try decoder.decode([KodiPlayer].self, from: data)
-                
-                print(result.count)
-                
-                return result
-            }else{
-                
-            }
-        }
-        catch let error{
-            print("Filemanager hat geschmissen: \(error)")
-        }
-        return [KodiPlayer]()           //not found, error, etc: return an empty array
-    }
+
 }
 
 
 
-class DeviceOverviewTableViewController: UITableViewController, KodiPlayerLoaderProtocol {
+class DeviceOverviewTableViewController: UITableViewController{
    
     var mediaPlayers = [KodiPlayer](){
         didSet{
@@ -72,7 +43,11 @@ class DeviceOverviewTableViewController: UITableViewController, KodiPlayerLoader
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.mediaPlayers = loadData()
+        self.mediaPlayers.loadData()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -104,17 +79,19 @@ class DeviceOverviewTableViewController: UITableViewController, KodiPlayerLoader
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            mediaPlayers.remove(at: indexPath.row)
+            mediaPlayers.save()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.

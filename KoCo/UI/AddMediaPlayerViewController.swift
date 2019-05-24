@@ -8,10 +8,7 @@
 
 import UIKit
 
-
-
-
-class AddMediaPlayerViewController: UIViewController, KodiPlayerLoaderProtocol {
+class AddMediaPlayerViewController: UIViewController{
 
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -21,11 +18,11 @@ class AddMediaPlayerViewController: UIViewController, KodiPlayerLoaderProtocol {
     
     @IBOutlet weak var passwordTextField: UITextField!
     
-    //weak var receiver : KodiAddDelegateProtocol?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Add Media Center"
+        
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing)))
         // Do any additional setup after loading the view.
     }
     
@@ -55,6 +52,8 @@ class AddMediaPlayerViewController: UIViewController, KodiPlayerLoaderProtocol {
         
         
         //try to connect with kodi:
+        
+        
         //if it fails: Question to the user: should I save the player??
         //yes: save
         //exit
@@ -63,43 +62,11 @@ class AddMediaPlayerViewController: UIViewController, KodiPlayerLoaderProtocol {
     }
     
     private func appendPlayerToFile(player: KodiPlayer){
-        var savedPlayers = loadData()
-        
+        var savedPlayers = [KodiPlayer]()
+        savedPlayers.loadData()
         savedPlayers += [player]
-        
-        saveToFile(players: savedPlayers)
-    
+        savedPlayers.save()
     }
-    
-    private func saveToFile(players: [KodiPlayer]){
-        var url: URL
-        
-        do{
-            url = try FileManager.default.url(
-                for: FileManager.SearchPathDirectory.applicationDirectory,
-                in: .userDomainMask,
-                appropriateFor: nil,
-                create: true)
-            
-           
-            
-            url.appendPathComponent("players.json")
-            
-            print(url)
-            
-            let coder = JSONEncoder()
-            
-            let data = try coder.encode(players)
-            
-            try data.write(to: url)
-            
-        }
-        catch let error{
-            print("Filemanager hat geschmissen: \(error)")
-        }
-        
-    }
-    
     
     func showAlert(title: String, message: String){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -28,7 +28,7 @@ class KodiPlayer : Codable{
         self.user = user
         self.password = password
     }
-    
+
     
     static private func checkUrl(url: String) -> Bool{
         let urlInstance = URL(string: url)
@@ -39,4 +39,62 @@ class KodiPlayer : Codable{
         }
         return false
     }
+}
+
+
+extension Array where Element: KodiPlayer{
+    
+    private var filename : String{
+        get{
+            return "players.json"
+        }
+    }
+    
+    private var url : URL{
+        get{
+            do{
+                var tmpurl = try FileManager.default.url(
+                    for: FileManager.SearchPathDirectory.applicationDirectory,
+                    in: .userDomainMask,
+                    appropriateFor: nil,
+                    create: true)
+                
+                tmpurl.appendPathComponent(self.filename)
+                
+                return tmpurl
+            }
+            catch let error{
+                print("Filemanager hat geschmissen: \(error)")
+            }
+            return URL(string:"Not Implemented")!
+        }
+    }
+    
+    mutating func loadData(){
+        do{
+            if let data = try? Data(contentsOf: self.url){
+                let decoder = JSONDecoder()
+                
+                let result = try decoder.decode([KodiPlayer].self, from: data)
+                print("Loaded: Elements count: \(result.count)")
+                
+                self = result as! Array<Element>
+            }
+        }
+        catch let error{
+            print("Error: \(error) at creating Playerdata from url: \(self.url) ")
+        }
+    }
+    
+    func save(){
+        do{
+            let coder = JSONEncoder()
+            let data = try coder.encode(self)
+            try data.write(to: self.url)
+        }
+        catch let error{
+            print("Error \(error), while trying to save players")
+        }
+    }
+    
 }
