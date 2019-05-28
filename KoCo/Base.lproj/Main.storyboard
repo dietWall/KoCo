@@ -140,7 +140,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="101" height="30"/>
                                         <state key="normal" title="Add"/>
                                         <connections>
-                                            <action selector="addButtonFinished:" destination="fak-8w-q0v" eventType="touchUpInside" id="Hkg-v8-an5"/>
+                                            <action selector="checkPlayerAvailable:" destination="fak-8w-q0v" eventType="touchUpInside" id="Hkg-v8-an5"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rY8-dU-VQL">

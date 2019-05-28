@@ -9,7 +9,14 @@
 import UIKit
 
 class AddMediaPlayerViewController: UIViewController{
-
+    
+    private let authentificationFailedNotification = Notification(title: "Authentification failed!", alertStyle: .alert, message: "Player rejected username or password", actions: [NotificationButton(text: "Ok", style: .default)] )
+    
+    private let successNotification = Notification(title: "Success!", alertStyle: .alert, message: "Successfully saved player", actions: [NotificationButton(text: "Ok", style: .default)] )
+    
+    private let invalidUrlNotification = Notification(title: "Invalid URL", alertStyle: .alert, message: "The given url is incorrect", actions: [NotificationButton(text: "Ok", style: .default)] )
+    
+    
     @IBOutlet weak var nameTextField: UITextField!
     
     @IBOutlet weak var urlTextField: UITextField!
@@ -22,43 +29,97 @@ class AddMediaPlayerViewController: UIViewController{
         super.viewDidLoad()
         navigationItem.title = "Add Media Center"
         
+        //Disappearing Keyboard
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing)))
-        // Do any additional setup after loading the view.
     }
     
+    
     @IBAction func cancelPressed(_ sender: UIButton) {
-        print("cancel pressed: leaving vc")
         navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func addButtonFinished(_ sender: UIButton) {
-        
-        print("nameTextField: \(String(describing: nameTextField.text))" )
-        print("url: \(String(describing: urlTextField.text))" )
-        print("username: \(String(describing: userNameTextField.text))" )
-        print("password: \(String(describing: passwordTextField.text))" )
-        
-        //Create Kodi
-        let player = KodiPlayer(name: (nameTextField.text)!, url: urlTextField.text!, user: userNameTextField.text, password: passwordTextField.text)
-        
-        if(player != nil){
-            print("saving Player")
-            appendPlayerToFile(player: player!)         //check against not nil was done
-        }
-        else{
-            //If it fails, show a message: url is incorrect, no segue
-            showAlert(title: "URL is incorrect", message: urlTextField.text! + "is an incorrect URL")
-        }
-        
-        
-        //try to connect with kodi:
-        
-        
-        //if it fails: Question to the user: should I save the player??
-        //yes: save
-        //exit
-        
     
+    @IBAction func checkPlayerAvailable(_ sender: UIButton) {
+        
+        //Create Player
+        guard let player = KodiPlayer(name: (nameTextField.text)!, url: urlTextField.text!, user: userNameTextField.text, password: passwordTextField.text) else{
+            //Set Cursor in the UrlTextField, last character, so user can modify the url
+            self.invalidUrl()
+            return
+        }
+        
+        self.showSpinner(onView: self.view)
+        
+        player.getVersion(completion: { tmpVersion, response, error in
+            
+            self.removeSpinner()
+            
+            if error == nil{
+                
+                switch(response?.statusCode)
+                {
+                case -1001:
+                    self.createAlarmPlayerNotReachable(player: player)
+                case 401:
+                    //TODO: Show: User/Password required!!!
+                    self.createNotification(notification: self.authentificationFailedNotification)
+                    self.jumpToTextField(textField: self.userNameTextField)
+                case 200:
+                    self.appendPlayerToFile(player: player)
+                    self.createNotification(notification: self.successNotification)
+                    
+                    //self.navigationController?.popViewController(animated: true)
+                default:
+                    print("\(self) not implemented error: statuscode: \(String(describing: response?.statusCode))")
+                    //Everything else defaults to invalid url
+                    self.invalidUrl()
+                    break;
+                }
+            }
+            else{
+                print("Error != nil: \(String(describing: error))")
+                print("Statuscode: \(String(describing: response?.statusCode))")
+                //self.invalidUrl()
+                self.createAlarmPlayerNotReachable(player: player)
+            }
+            
+            })
+
+    }
+
+    
+    private func invalidUrl(){
+        createNotification(notification: invalidUrlNotification)
+        jumpToTextField(textField: urlTextField)
+    }
+    
+    private func createAlarmPlayerNotReachable(player: KodiPlayer){
+        let alert = UIAlertController(title: "Not Reachable", message: "Was not able to contact Kodi, Do you want to save anyway?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Save", comment: ""), style: .default, handler: { _ in
+            self.appendPlayerToFile(player: player)
+        }))
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Default action"), style: .default, handler: { _ in
+            //dont save, clear the fields
+            self.urlTextField.text = ""
+        }))
+        
+        //Present from the main queue
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    private func createAlarmUserRequired(){
+        let alert = UIAlertController(title: "Authentification failed", message: "Player need Username/Password", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: { _ in
+        }))
+        
+        //Present from the main queue
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
     }
     
     private func appendPlayerToFile(player: KodiPlayer){
@@ -67,30 +128,76 @@ class AddMediaPlayerViewController: UIViewController{
         savedPlayers += [player]
         savedPlayers.save()
     }
+
+}
+
+
+
+extension UIViewController{
     
-    func showAlert(title: String, message: String){
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let OKAction = UIAlertAction(title: "OK", style: .default)
-        alertController.addAction(OKAction)
-        
-        var alertWindow : UIWindow!
-        alertWindow = UIWindow.init(frame: UIScreen.main.bounds)
-        alertWindow.rootViewController = UIViewController.init()
-        alertWindow.windowLevel = UIWindow.Level.alert + 1
-        alertWindow.makeKeyAndVisible()
-        alertWindow.rootViewController?.present(alertController, animated: true)
+    struct NotificationButton{
+        let text: String
+        let style : UIAlertAction.Style
     }
     
-
-    // MARK: - Navigation
-/*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    struct Notification{
+        let title: String
+        let alertStyle: UIAlertController.Style
+        let message : String
+        let actions : [NotificationButton]
     }
- */
+    
+    func createNotification(notification: Notification){
+        let alert = UIAlertController(title: notification.title, message: notification.message, preferredStyle: notification.alertStyle)
+        
+        for button in notification.actions{
+            alert.addAction(UIAlertAction(title: NSLocalizedString(button.text, comment: ""), style: button.style,  handler: { _ in
+                //Just a notification, nothing to do here
+            }))
+        }
+        
+        //Present from the main queue
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+}
 
+extension UIViewController{
+    
+    func jumpToTextField(textField: UITextField)
+    {
+        DispatchQueue.main.async {
+            let newPosition = textField.endOfDocument
+            textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+        }
+    }
+    
+}
+
+var vSpinner : UIView?
+
+extension UIViewController {
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        vSpinner = spinnerView
+    }
+    
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            vSpinner?.removeFromSuperview()
+            vSpinner = nil
+        }
+    }
 }
