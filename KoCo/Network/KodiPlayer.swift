@@ -11,11 +11,8 @@ import Foundation
 class KodiPlayer : Codable{
     
     let url : String
-    
     let name : String
-    
     let user : String?
-    
     let password : String?
     
     init?(name: String, url: String, user: String?, password: String?)
@@ -29,6 +26,8 @@ class KodiPlayer : Codable{
         self.password = password
     }
 
+
+    
     
     static private func checkUrl(url: String) -> Bool{
         let urlInstance = URL(string: url)
@@ -91,6 +90,8 @@ extension Array where Element: KodiPlayer{
             let coder = JSONEncoder()
             let data = try coder.encode(self)
             try data.write(to: self.url)
+            let str = String(data: data, encoding: .utf8)
+            print("Saving Players: " + str!)
         }
         catch let error{
             print("Error \(error), while trying to save players")
