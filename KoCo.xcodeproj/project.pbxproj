@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84629D7B229FB98B00B9455A /* RemoteControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */; };
 		84858414229177C1006064A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858413229177C1006064A0 /* AppDelegate.swift */; };
 		84858416229177C1006064A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858415229177C1006064A0 /* ViewController.swift */; };
 		84858419229177C1006064A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84858417229177C1006064A0 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlViewController.swift; sourceTree = "<group>"; };
 		84858410229177C1006064A0 /* KoCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84858413229177C1006064A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84858415229177C1006064A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				8485843622917999006064A0 /* AddMediaPlayerViewController.swift */,
 				8485843822917A9D006064A0 /* DeviceOverviewTableViewController.swift */,
+				84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -233,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84629D7B229FB98B00B9455A /* RemoteControlViewController.swift in Sources */,
 				84858470229877E3006064A0 /* KodiApi.swift in Sources */,
 				8485843C22918957006064A0 /* JSonRpc.swift in Sources */,
 				8485843922917A9D006064A0 /* DeviceOverviewTableViewController.swift in Sources */,

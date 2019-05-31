@@ -67,8 +67,7 @@ class AddMediaPlayerViewController: UIViewController{
                 case 200:
                     self.appendPlayerToFile(player: player)
                     self.createNotification(notification: self.successNotification)
-                    
-                    //self.navigationController?.popViewController(animated: true)
+
                 default:
                     print("\(self) not implemented error: statuscode: \(String(describing: response?.statusCode))")
                     //Everything else defaults to invalid url

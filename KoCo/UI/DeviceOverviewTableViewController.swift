@@ -8,17 +8,6 @@
 
 import UIKit
 
-protocol KodiPlayerLoaderProtocol{
-    func loadData() -> [KodiPlayer]
-}
-
-
-extension KodiPlayerLoaderProtocol{
-    
-
-}
-
-
 
 class DeviceOverviewTableViewController: UITableViewController{
    
@@ -108,15 +97,26 @@ class DeviceOverviewTableViewController: UITableViewController{
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "playerSelected"{
+            
+            if let dest = segue.destination as? RemoteControlViewController{
+                if let def=sender as? UITableViewCell{
+                    let player = mediaPlayers.filter( {$0.name == def.textLabel?.text})[0]
+                    dest.player = player
+                }
+            }else{
+                print("segue:dest \(segue.destination)")
+            }
+        }
     }
-    */
+
 }
 
 

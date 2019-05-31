@@ -26,6 +26,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="5sb-oL-YeO" kind="show" identifier="playerSelected" id="QDV-nl-JS3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -46,6 +49,116 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EPV-GM-Zo3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="912.79999999999995" y="36.431784107946029"/>
+        </scene>
+        <!--Remote-->
+        <scene sceneID="utk-2u-tlA">
+            <objects>
+                <viewController title="Remote" id="5sb-oL-YeO" customClass="RemoteControlViewController" customModule="KoCo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qke-bc-AMM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Fg2-O0-Tu8">
+                                <rect key="frame" x="58.5" y="325" width="258" height="258"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="665-fc-H3R">
+                                        <rect key="frame" x="0.0" y="0.0" width="258" height="66"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ebs-mh-XoU">
+                                                <rect key="frame" x="0.0" y="0.0" width="66" height="66"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="66" id="Oak-sL-nm2"/>
+                                                    <constraint firstAttribute="height" constant="66" id="gtf-59-3XK"/>
+                                                </constraints>
+                                                <state key="normal" image="liste-50"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-Wx-dTh">
+                                                <rect key="frame" x="96" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="up" image="Triangle-up"/>
+                                                <connections>
+                                                    <action selector="directionKeyPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="DCH-Fb-Rbb"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZy-bQ-2jO">
+                                                <rect key="frame" x="192" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="Button" image="info-filled-50"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="ROF-eQ-aPI">
+                                        <rect key="frame" x="0.0" y="96" width="258" height="66"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L5B-Ho-eP9">
+                                                <rect key="frame" x="0.0" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="left" image="Triangle-left"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WQn-i2-s4S">
+                                                <rect key="frame" x="96" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="Enter" image="kodi-50"/>
+                                                <connections>
+                                                    <action selector="directionKeyPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="YdO-S7-dNO"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yav-4I-IUP">
+                                                <rect key="frame" x="192" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="right" image="Triangle-right"/>
+                                                <connections>
+                                                    <action selector="directionKeyPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="szk-nF-UvJ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="bhK-Jj-ne5">
+                                        <rect key="frame" x="0.0" y="192" width="258" height="66"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89n-Iy-ugT" userLabel="backButton">
+                                                <rect key="frame" x="0.0" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="Back" image="zurück-filled-50"/>
+                                                <connections>
+                                                    <action selector="directionKeyPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="d7I-6o-ItM"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2Y-uF-ubL">
+                                                <rect key="frame" x="96" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="down" image="Triangle-down"/>
+                                                <connections>
+                                                    <action selector="directionKeyPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="2fd-Rz-8NO"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VX2-DC-tzT">
+                                                <rect key="frame" x="192" y="0.0" width="66" height="66"/>
+                                                <state key="normal" title="Button" image="aktivitätsraster-filled-50"/>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="L5B-Ho-eP9" firstAttribute="width" secondItem="89n-Iy-ugT" secondAttribute="width" id="GXM-at-9pj"/>
+                                    <constraint firstItem="TZy-bQ-2jO" firstAttribute="width" secondItem="yav-4I-IUP" secondAttribute="width" id="KEN-oC-FfL"/>
+                                    <constraint firstItem="WQn-i2-s4S" firstAttribute="width" secondItem="l2Y-uF-ubL" secondAttribute="width" id="NXi-lt-KvS"/>
+                                    <constraint firstItem="ebs-mh-XoU" firstAttribute="width" secondItem="L5B-Ho-eP9" secondAttribute="width" id="U5y-c0-WIR"/>
+                                    <constraint firstItem="yav-4I-IUP" firstAttribute="width" secondItem="VX2-DC-tzT" secondAttribute="width" id="Ycz-UV-iWX"/>
+                                    <constraint firstItem="1LA-Wx-dTh" firstAttribute="width" secondItem="WQn-i2-s4S" secondAttribute="width" id="t0h-Zz-5cR"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kUr-j3-O9h" firstAttribute="bottom" secondItem="Fg2-O0-Tu8" secondAttribute="bottom" constant="40" id="bp8-pB-0Ah"/>
+                            <constraint firstItem="Fg2-O0-Tu8" firstAttribute="centerX" secondItem="kUr-j3-O9h" secondAttribute="centerX" id="laA-gd-YNd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kUr-j3-O9h"/>
+                    </view>
+                    <connections>
+                        <outletCollection property="directionKeys" destination="1LA-Wx-dTh" collectionClass="NSMutableArray" id="RRt-sT-0cR"/>
+                        <outletCollection property="directionKeys" destination="yav-4I-IUP" collectionClass="NSMutableArray" id="X2P-jg-U3D"/>
+                        <outletCollection property="directionKeys" destination="L5B-Ho-eP9" collectionClass="NSMutableArray" id="lkt-B1-4u0"/>
+                        <outletCollection property="directionKeys" destination="l2Y-uF-ubL" collectionClass="NSMutableArray" id="iC2-p2-P6A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C2X-YB-2Si" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="912.79999999999995" y="875.71214392803608"/>
         </scene>
         <!--Add Media Player View Controller-->
         <scene sceneID="6Cu-lV-RcV">
@@ -194,4 +307,15 @@
             <point key="canvasLocation" x="-26.399999999999999" y="36.431784107946029"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Triangle-down" width="36" height="26.25"/>
+        <image name="Triangle-left" width="27" height="36"/>
+        <image name="Triangle-right" width="26.25" height="36"/>
+        <image name="Triangle-up" width="36" height="27"/>
+        <image name="aktivitätsraster-filled-50" width="37.5" height="37.5"/>
+        <image name="info-filled-50" width="37.5" height="37.5"/>
+        <image name="kodi-50" width="37.5" height="37.5"/>
+        <image name="liste-50" width="37.5" height="37.5"/>
+        <image name="zurück-filled-50" width="37.5" height="37.5"/>
+    </resources>
 </document>
