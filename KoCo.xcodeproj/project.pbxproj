@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		844A899F22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A899E22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift */; };
+		844A89A122A4023D000ED2EB /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A89A022A4023D000ED2EB /* PlaylistTableViewController.swift */; };
+		844A89A322A40283000ED2EB /* MusicLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A89A222A40283000ED2EB /* MusicLibraryViewController.swift */; };
 		84629D7B229FB98B00B9455A /* RemoteControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */; };
 		84858414229177C1006064A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858413229177C1006064A0 /* AppDelegate.swift */; };
 		84858416229177C1006064A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858415229177C1006064A0 /* ViewController.swift */; };
@@ -35,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		844A899E22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiPlayerTabBarViewController.swift; sourceTree = "<group>"; };
+		844A89A022A4023D000ED2EB /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
+		844A89A222A40283000ED2EB /* MusicLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryViewController.swift; sourceTree = "<group>"; };
 		84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlViewController.swift; sourceTree = "<group>"; };
 		84858410229177C1006064A0 /* KoCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84858413229177C1006064A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +127,9 @@
 				8485843622917999006064A0 /* AddMediaPlayerViewController.swift */,
 				8485843822917A9D006064A0 /* DeviceOverviewTableViewController.swift */,
 				84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */,
+				844A899E22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift */,
+				844A89A022A4023D000ED2EB /* PlaylistTableViewController.swift */,
+				844A89A222A40283000ED2EB /* MusicLibraryViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -237,9 +246,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				84629D7B229FB98B00B9455A /* RemoteControlViewController.swift in Sources */,
+				844A899F22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift in Sources */,
+				844A89A322A40283000ED2EB /* MusicLibraryViewController.swift in Sources */,
 				84858470229877E3006064A0 /* KodiApi.swift in Sources */,
 				8485843C22918957006064A0 /* JSonRpc.swift in Sources */,
 				8485843922917A9D006064A0 /* DeviceOverviewTableViewController.swift in Sources */,
+				844A89A122A4023D000ED2EB /* PlaylistTableViewController.swift in Sources */,
 				8485843722917999006064A0 /* AddMediaPlayerViewController.swift in Sources */,
 				8485843E22919FC0006064A0 /* KodiPlayer.swift in Sources */,
 				84858416229177C1006064A0 /* ViewController.swift in Sources */,
