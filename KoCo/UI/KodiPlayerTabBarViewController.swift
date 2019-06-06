@@ -8,24 +8,8 @@
 
 import UIKit
 
-class KodiPlayerTabBarViewController: UITabBarController, KodiPlayerViewController {
-    
-    
-    var player: KodiPlayer?{
-        didSet{
-            print("TabBarViewController: player: didSet")
-            guard let vc = self.viewControllers as? [KodiPlayerViewController] else {
-                print("KodiTabBarViewController Error: children are not castable to [KodiPlayerViewController]")
-                return
-            }
-            
-            for var v in vc{
-                v.player = player
-            }
-            
-        }
-    }
-    
+class KodiPlayerTabBarViewController: UITabBarController{
+        
 
     override func viewDidLoad() {
         super.viewDidLoad()

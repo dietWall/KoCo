@@ -10,7 +10,9 @@ import UIKit
 
 
 class DeviceOverviewTableViewController: UITableViewController{
-   
+    
+    var player: KodiPlayer?
+    
     var mediaPlayers = [KodiPlayer](){
         didSet{
             DispatchQueue.main.async { [weak self] in
@@ -22,7 +24,7 @@ class DeviceOverviewTableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Media Centers"
+        //navigationItem.title = "Media Centers"
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -55,7 +57,7 @@ class DeviceOverviewTableViewController: UITableViewController{
 
         // Configure the cell...
         cell.textLabel?.text = mediaPlayers[indexPath.row].name
-        cell.detailTextLabel?.text = mediaPlayers[indexPath.row].url
+        cell.detailTextLabel?.text = mediaPlayers[indexPath.row].host
         return cell
     }
     
@@ -77,7 +79,9 @@ class DeviceOverviewTableViewController: UITableViewController{
             mediaPlayers.save()
             tableView.deleteRows(at: [indexPath], with: .automatic)
         } else if editingStyle == .insert {
+            //Von hier könnte auch ein Segue stattfinden
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+            performSegue(withIdentifier: "AddNewKodiPlayer", sender: self)
         }    
     }
 
@@ -99,27 +103,13 @@ class DeviceOverviewTableViewController: UITableViewController{
 
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        KodiPlayer.player = mediaPlayers[indexPath.row]
         
-        if segue.identifier == "playerSelected"{
-            if var dest = segue.destination as? KodiPlayerViewController{
-                if let def=sender as? UITableViewCell{
-                    let player = mediaPlayers.filter( {$0.name == def.textLabel?.text})[0]
-                    dest.player = player
-                }
-            }
-            
-        }
-        
+        let tbvc = self.tabBarController as! KodiPlayerTabBarViewController
+        //Select RemoteViewController as active ViewController
+        tbvc.selectedIndex = 1
     }
 
 }
-
-
-
-
-

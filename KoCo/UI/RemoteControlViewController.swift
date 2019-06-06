@@ -10,15 +10,12 @@
 import UIKit
 
 
-protocol KodiPlayerViewController{
+class KodiInstance{
     
-    var player : KodiPlayer? {get set}
 }
 
-
-
-class RemoteControlViewController: UIViewController, KodiPlayerViewController {
-    
+class RemoteControlViewController: UIViewController{
+   
     enum NavigationButtonTags : Int{
         case Up
         case Right
@@ -28,51 +25,83 @@ class RemoteControlViewController: UIViewController, KodiPlayerViewController {
         case Back
     }
     
-    var player : KodiPlayer? = nil
+    
+    //var player : KodiPlayer? = KodiPlayer.player
     
     //Timer for activePlayerStatus
     var timer : Timer?
     
     @IBOutlet weak var playerStatusView: UIView!
     
+    private func directionKeyCompletion(result: String?, response: HTTPURLResponse?, error: Error? )
+    {
+        if result != nil{
+            return
+        }
+        else{
+            if let response = response{
+                
+                let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: " + String(response.statusCode), actions: [NotificationButton(text: "Ok", style: .default)] )
+                
+                self.createNotification(notification: connectionFailedNotification)
+            }
+            else{
+                let errorstring = error?.localizedDescription ?? "No Response from host"
+                
+                let internalErrorNotification  = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: " + errorstring, actions: [NotificationButton(text: "Ok", style: .default)] )
+                
+                createNotification(notification: internalErrorNotification)
+            }
+        }
+    }
+    
     @IBAction func directionKeyPressed(_ sender: UIButton) {
         
         switch(sender.tag)
         {
         case NavigationButtonTags.Up.rawValue:
-            player?.navigate(to: .Up)
+            KodiPlayer.player?.navigate(to: .Up, completion: directionKeyCompletion(result:response:error:))
         case NavigationButtonTags.Down.rawValue:
-            player?.navigate(to: .Down)
+            KodiPlayer.player?.navigate(to: .Down, completion: directionKeyCompletion(result:response:error:))
         case NavigationButtonTags.Left.rawValue:
-            player?.navigate(to: .Left)
+            KodiPlayer.player?.navigate(to: .Left, completion: directionKeyCompletion(result:response:error:))
         case NavigationButtonTags.Right.rawValue:
-            player?.navigate(to: .Right)
+            KodiPlayer.player?.navigate(to: .Right, completion: directionKeyCompletion(result:response:error:))
         case NavigationButtonTags.Enter.rawValue:
-            player?.navigate(to: .Enter)
+            KodiPlayer.player?.navigate(to: .Enter, completion: directionKeyCompletion(result:response:error:))
         case NavigationButtonTags.Back.rawValue:
-            player?.navigate(to: .Back)
+            KodiPlayer.player?.navigate(to: .Back, completion: directionKeyCompletion(result:response:error:))
         default:
             print("unknown button title : \(String(describing: sender.tag))")
         }
     }
 
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self,   selector: (#selector(refreshPlayerStatus)), userInfo: nil, repeats: true)
+        
+        //self.player = KodiPlayer.player
+        
+        //print("RemoteControlView: selected player: \(String(describing: self.player?.name))")
     }
     
+    @IBAction func infoButtonPressed(_ sender: Any) {
+        KodiPlayer.player?.inputExecuteAction(for: .info, completion: directionKeyCompletion(result:response:error:))
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(player != nil){
-            print("RemoteControlViewController" + (player?.name)!)
-        }
-        else
-        {
-            print("RemoteControlViewController " + "player not set" )
-        }
+//        if(player != nil){
+//            print("RemoteControlViewController" + (player?.name)!)
+//        }
+//        else
+//        {
+//            print("RemoteControlViewController " + "player not set" )
+//        }
         // Do any additional setup after loading the view.
         
         self.refreshPlayerStatus()
@@ -89,9 +118,9 @@ class RemoteControlViewController: UIViewController, KodiPlayerViewController {
 
     @objc func refreshPlayerStatus(){
         
-        print("Refresh: \(String(describing: player?.name))")
+        //print("Refresh: \(String(describing: player?.name))")
         
-        player?.getPlayerStatus(completion: { players, response, error in
+        KodiPlayer.player?.getPlayerStatus(completion: { players, response, error in
             if response?.statusCode == 200{
                 if players?.count == 0{
                     DispatchQueue.main.async { [weak self] in
@@ -108,13 +137,18 @@ class RemoteControlViewController: UIViewController, KodiPlayerViewController {
             
                 self.timer?.invalidate()                        //It doesn´t make sense to refresh from now on
                 
-                guard let response = response else{
-                    let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error:" + error.debugDescription, actions: [NotificationButton(text: "Ok", style: .default)] )
+                guard response != nil else{
+                    
+                    let errorstring = error?.localizedDescription ?? "No Response from host"
+                    
+                    let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: " + errorstring, actions: [NotificationButton(text: "Ok", style: .default)] )
+                    
                     self.createNotification(notification: connectionFailedNotification)
                     return
                 }
                 
-                let connectionFailedNotification = Notification(title: "Connection failed", alertStyle: .alert, message: "Statuscode:" + String(response.statusCode), actions: [NotificationButton(text: "Ok", style: .default)] )
+                let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: ", actions: [NotificationButton(text: "Ok", style: .default)] )
+
                 self.createNotification(notification: connectionFailedNotification)
                 }
             })

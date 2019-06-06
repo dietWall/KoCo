@@ -8,9 +8,9 @@
 
 import UIKit
 
-class PlaylistTableViewController: UITableViewController, KodiPlayerViewController {
+class PlaylistTableViewController: UITableViewController{
     
-    var player: KodiPlayer?
+    var player: KodiPlayer? = KodiPlayer.player
     
 
     override func viewDidLoad() {
@@ -97,4 +97,8 @@ class PlaylistTableViewController: UITableViewController, KodiPlayerViewControll
     }
     */
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.player = KodiPlayer.player
+    }
 }

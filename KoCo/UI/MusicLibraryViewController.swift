@@ -8,11 +8,11 @@
 
 import UIKit
 
-class MusicLibraryViewController: UIViewController, KodiPlayerViewController, UITableViewDataSource {
+class MusicLibraryViewController: UIViewController, UITableViewDataSource {
     
 
     
-    var player: KodiPlayer?
+    var player: KodiPlayer? = KodiPlayer.player
     
     @IBOutlet weak var mediaLibraryView: UITableView!
     
@@ -30,7 +30,10 @@ class MusicLibraryViewController: UIViewController, KodiPlayerViewController, UI
         mediaLibraryView.dataSource = self
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.player = KodiPlayer.player
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -38,7 +41,7 @@ class MusicLibraryViewController: UIViewController, KodiPlayerViewController, UI
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //TODO: new Cell and reformat
-        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicPlayerCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "BasicMediaCell", for: indexPath)
         
         // Configure the cell...
         return cell
