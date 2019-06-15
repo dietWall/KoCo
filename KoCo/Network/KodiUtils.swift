@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 extension Array where Element: KodiPlayer{
@@ -70,9 +71,6 @@ extension Array where Element: KodiPlayer{
 
 extension URLRequest{
     
-    
-    
-    
     static func kodiRequest(url: URL, data: Data)-> URLRequest{
         var request = URLRequest(url: url)
         //configure Request
@@ -104,4 +102,15 @@ extension URLRequest{
         let requestData = JsonRpcRequest<Int>(id: nextRequestId, method: method)
         return self.kodiRequest(url: url, data: requestData.encode())
     }
+    
+}
+
+extension UIImage{
+    
+    static func fromURL(url: URL)throws ->UIImage?{
+        let imgData = try Data(contentsOf: url)
+        let img = UIImage(data: imgData)
+        return img
+    }
+
 }

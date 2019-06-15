@@ -45,7 +45,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EPV-GM-Zo3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2652" y="1001.649175412294"/>
+            <point key="canvasLocation" x="2012" y="1002"/>
         </scene>
         <!--Playlist-->
         <scene sceneID="kCd-wC-Lnc">
@@ -212,7 +212,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="OyM-ht-1MD" userLabel="PreviewStackView">
                                                 <rect key="frame" x="8" y="0.0" width="359" height="97.5"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8KT-Vd-2yI" userLabel="MediaPreviewImage">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8KT-Vd-2yI" userLabel="MediaPreviewImage">
                                                         <rect key="frame" x="0.0" y="0.0" width="112.5" height="97.5"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label with a very long text and hopefully linebreaks and more" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K46-KE-r54" userLabel="MediaDescriptionLabel">
@@ -229,26 +229,44 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hy7-Qh-W8q">
                                                         <rect key="frame" x="0.0" y="0.0" width="59" height="80.5"/>
                                                         <state key="normal" image="skip-to-start-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="kte-HY-6y9"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgR-b5-jFl">
+                                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgR-b5-jFl">
                                                         <rect key="frame" x="60" y="0.0" width="59" height="80.5"/>
                                                         <state key="normal" image="rewind-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="la6-vV-09P"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-2p-9DZ">
+                                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-2p-9DZ">
                                                         <rect key="frame" x="120" y="0.0" width="59" height="80.5"/>
                                                         <state key="normal" image="stop-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="dtB-ET-ZX3"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIr-9J-ilo">
+                                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIr-9J-ilo">
                                                         <rect key="frame" x="180" y="0.0" width="59" height="80.5"/>
                                                         <state key="normal" image="pause-button-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="TBh-al-sRM"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHI-Nt-LUX">
+                                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHI-Nt-LUX">
                                                         <rect key="frame" x="240" y="0.0" width="59" height="80.5"/>
                                                         <state key="normal" image="fast-forward-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="cjt-gv-baP"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DiE-g7-jCO">
+                                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DiE-g7-jCO">
                                                         <rect key="frame" x="300" y="0.0" width="59" height="80.5"/>
                                                         <state key="normal" image="skip-this-track-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="W4g-lD-DgJ"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -263,6 +281,9 @@
                                                     </label>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="TZ6-pv-Zgl">
                                                         <rect key="frame" x="34" y="0.0" width="291" height="31"/>
+                                                        <connections>
+                                                            <action selector="seekPosition:" destination="5sb-oL-YeO" eventType="valueChanged" id="Qbb-py-tgJ"/>
+                                                        </connections>
                                                     </slider>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJj-ML-gWB">
                                                         <rect key="frame" x="323" y="0.0" width="36" height="30"/>
@@ -275,19 +296,28 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L4X-1o-WeQ" userLabel="VolumeControlStackView">
                                                 <rect key="frame" x="8" y="194" width="359" height="37"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-c5-mjE">
+                                                    <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-c5-mjE">
                                                         <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
                                                         <state key="normal" image="shuffle-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="AbD-Gf-yuV"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blb-mD-q5k">
+                                                    <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blb-mD-q5k">
                                                         <rect key="frame" x="37" y="0.0" width="37" height="37"/>
                                                         <state key="normal" image="repeat-50"/>
+                                                        <connections>
+                                                            <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="4c1-mW-QHO"/>
+                                                        </connections>
                                                     </button>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sound-50" translatesAutoresizingMaskIntoConstraints="NO" id="Ckn-sZ-dUB">
                                                         <rect key="frame" x="74" y="0.0" width="37" height="37"/>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="naS-UG-rsR">
                                                         <rect key="frame" x="109" y="0.0" width="252" height="38"/>
+                                                        <connections>
+                                                            <action selector="setVolume:" destination="5sb-oL-YeO" eventType="valueChanged" id="M2s-Bh-OGb"/>
+                                                        </connections>
                                                     </slider>
                                                 </subviews>
                                             </stackView>
@@ -322,6 +352,9 @@
                                                             <constraint firstAttribute="width" constant="66" id="Oak-sL-nm2"/>
                                                         </constraints>
                                                         <state key="normal" image="liste-50"/>
+                                                        <connections>
+                                                            <action selector="contextMenuPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="lVF-FU-R0b"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-Wx-dTh">
                                                         <rect key="frame" x="85" y="0.0" width="66" height="71.5"/>
@@ -385,6 +418,9 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VX2-DC-tzT">
                                                         <rect key="frame" x="170" y="0.0" width="66" height="71.5"/>
                                                         <state key="normal" image="aktivitätsraster-filled-50"/>
+                                                        <connections>
+                                                            <action selector="osdMenuPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="6dq-jx-fZ6"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -417,7 +453,14 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Remote" id="FWe-Tw-a4C"/>
                     <connections>
+                        <outlet property="currentTimeLabel" destination="bpX-9O-oyL" id="qfG-er-eym"/>
+                        <outlet property="percentageSlider" destination="TZ6-pv-Zgl" id="WeM-qF-NCG"/>
                         <outlet property="playerStatusView" destination="m4i-SQ-Ecf" id="ub7-ZS-DX0"/>
+                        <outlet property="previewImage" destination="8KT-Vd-2yI" id="7IX-ai-99b"/>
+                        <outlet property="previewLabel" destination="K46-KE-r54" id="qaa-JF-9Rc"/>
+                        <outlet property="repeatButton" destination="blb-mD-q5k" id="aoG-Cz-6ge"/>
+                        <outlet property="shuffleButton" destination="ter-c5-mjE" id="RtU-Jy-30k"/>
+                        <outlet property="totalTimeLabel" destination="eJj-ML-gWB" id="LnT-By-LYB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C2X-YB-2Si" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -550,7 +593,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BLM-iA-NUB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3471.1999999999998" y="1001.649175412294"/>
+            <point key="canvasLocation" x="2929" y="1002"/>
         </scene>
         <!--Device Overview-->
         <scene sceneID="xOc-cj-eH4">
@@ -569,7 +612,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tn0-1c-FBQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1712.8" y="1001.649175412294"/>
+            <point key="canvasLocation" x="1052" y="1002"/>
         </scene>
     </scenes>
     <resources>

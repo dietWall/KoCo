@@ -9,21 +9,7 @@
 import Foundation
 
 
-struct VersionObj : Codable {
-    var version : Version
-}
 
-struct Version : Codable{
-    var major : Int
-    var minor : Int
-    var patch : Int
-}
-
-
-struct ActivePlayer : Codable{
-    var playerid : Int
-    var type : String
-}
 
 
 enum Action : String,  Codable{
