@@ -257,122 +257,136 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="309"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="OyM-ht-1MD" userLabel="PreviewStackView">
-                                                <rect key="frame" x="8" y="8" width="359" height="97.5"/>
+                                                <rect key="frame" x="8" y="8" width="359" height="200"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8KT-Vd-2yI" userLabel="MediaPreviewImage">
-                                                        <rect key="frame" x="0.0" y="0.0" width="112.5" height="97.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="112.5" height="200"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K46-KE-r54" userLabel="MediaDescriptionLabel">
-                                                        <rect key="frame" x="120.5" y="0.0" width="238.5" height="97.5"/>
+                                                        <rect key="frame" x="120.5" y="0.0" width="238.5" height="200"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="K46-KE-r54" secondAttribute="trailing" id="PtL-iw-LUR"/>
+                                                    <constraint firstItem="K46-KE-r54" firstAttribute="leading" secondItem="8KT-Vd-2yI" secondAttribute="trailing" constant="8" id="cqB-iL-k6N"/>
+                                                    <constraint firstItem="8KT-Vd-2yI" firstAttribute="leading" secondItem="OyM-ht-1MD" secondAttribute="leading" id="kRi-cb-Y20"/>
+                                                    <constraint firstAttribute="height" constant="200" id="uTT-U5-QKT"/>
+                                                </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ajp-ce-6nm" userLabel="TrackControlView">
-                                                <rect key="frame" x="8" y="113.5" width="359" height="72.5"/>
+                                                <rect key="frame" x="8" y="216" width="359" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hy7-Qh-W8q">
-                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="72.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="53" height="50"/>
                                                         <state key="normal" image="skip-to-start-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="kte-HY-6y9"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rgR-b5-jFl">
-                                                        <rect key="frame" x="61" y="0.0" width="53.5" height="72.5"/>
+                                                        <rect key="frame" x="61" y="0.0" width="53.5" height="50"/>
                                                         <state key="normal" image="rewind-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="la6-vV-09P"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQT-2p-9DZ">
-                                                        <rect key="frame" x="122.5" y="0.0" width="53" height="72.5"/>
+                                                        <rect key="frame" x="122.5" y="0.0" width="53" height="50"/>
                                                         <state key="normal" image="stop-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="dtB-ET-ZX3"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIr-9J-ilo">
-                                                        <rect key="frame" x="183.5" y="0.0" width="53" height="72.5"/>
+                                                        <rect key="frame" x="183.5" y="0.0" width="53" height="50"/>
                                                         <state key="normal" image="pause-button-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="TBh-al-sRM"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHI-Nt-LUX">
-                                                        <rect key="frame" x="244.5" y="0.0" width="53.5" height="72.5"/>
+                                                        <rect key="frame" x="244.5" y="0.0" width="53.5" height="50"/>
                                                         <state key="normal" image="fast-forward-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="cjt-gv-baP"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DiE-g7-jCO">
-                                                        <rect key="frame" x="306" y="0.0" width="53" height="72.5"/>
+                                                        <rect key="frame" x="306" y="0.0" width="53" height="50"/>
                                                         <state key="normal" image="skip-this-track-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="W4g-lD-DgJ"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lYx-Ex-MJH" userLabel="DurationControlView">
-                                                <rect key="frame" x="8" y="239" width="359" height="30"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpX-9O-oyL">
-                                                        <rect key="frame" x="0.0" y="0.0" width="36" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="TZ6-pv-Zgl">
-                                                        <rect key="frame" x="42" y="0.0" width="265" height="31"/>
-                                                        <connections>
-                                                            <action selector="seekPosition:" destination="5sb-oL-YeO" eventType="valueChanged" id="Qbb-py-tgJ"/>
-                                                        </connections>
-                                                    </slider>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJj-ML-gWB">
-                                                        <rect key="frame" x="313" y="0.0" width="46" height="30"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="G4k-J0-WMh"/>
+                                                </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="L4X-1o-WeQ" userLabel="VolumeControlStackView">
-                                                <rect key="frame" x="8" y="194" width="359" height="37"/>
+                                                <rect key="frame" x="8" y="274" width="359" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-c5-mjE">
-                                                        <rect key="frame" x="0.0" y="0.0" width="37" height="37"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="37" height="50"/>
                                                         <state key="normal" image="shuffle-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="AbD-Gf-yuV"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="blb-mD-q5k">
-                                                        <rect key="frame" x="45" y="0.0" width="37" height="37"/>
+                                                        <rect key="frame" x="45" y="0.0" width="37" height="50"/>
                                                         <state key="normal" image="repeat-50"/>
                                                         <connections>
                                                             <action selector="playerControlButtonPressed:" destination="5sb-oL-YeO" eventType="touchUpInside" id="4c1-mW-QHO"/>
                                                         </connections>
                                                     </button>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sound-50" translatesAutoresizingMaskIntoConstraints="NO" id="Ckn-sZ-dUB">
-                                                        <rect key="frame" x="90" y="0.0" width="37" height="37"/>
+                                                        <rect key="frame" x="90" y="0.0" width="37" height="50"/>
                                                     </imageView>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="naS-UG-rsR">
-                                                        <rect key="frame" x="133" y="0.0" width="228" height="38"/>
+                                                        <rect key="frame" x="133" y="0.0" width="228" height="51"/>
                                                         <connections>
                                                             <action selector="setVolume:" destination="5sb-oL-YeO" eventType="valueChanged" id="M2s-Bh-OGb"/>
                                                         </connections>
                                                     </slider>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="GLY-0e-Cin"/>
+                                                </constraints>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lYx-Ex-MJH" userLabel="DurationControlView">
+                                                <rect key="frame" x="8" y="332" width="359" height="50"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpX-9O-oyL">
+                                                        <rect key="frame" x="0.0" y="0.0" width="46" height="50"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="TZ6-pv-Zgl">
+                                                        <rect key="frame" x="52" y="0.0" width="255" height="51"/>
+                                                        <connections>
+                                                            <action selector="seekPosition:" destination="5sb-oL-YeO" eventType="valueChanged" id="Qbb-py-tgJ"/>
+                                                        </connections>
+                                                    </slider>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJj-ML-gWB">
+                                                        <rect key="frame" x="313" y="0.0" width="46" height="50"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="85F-bI-bSN"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="lYx-Ex-MJH" secondAttribute="trailing" constant="8" id="2zF-7K-fkD"/>
-                                            <constraint firstAttribute="bottom" secondItem="lYx-Ex-MJH" secondAttribute="bottom" constant="40" id="5F8-nm-3zl"/>
                                             <constraint firstAttribute="trailing" secondItem="Ajp-ce-6nm" secondAttribute="trailing" constant="8" id="7jN-xQ-txo"/>
                                             <constraint firstItem="L4X-1o-WeQ" firstAttribute="top" secondItem="Ajp-ce-6nm" secondAttribute="bottom" constant="8" id="8Go-1P-oz9"/>
                                             <constraint firstItem="8KT-Vd-2yI" firstAttribute="width" secondItem="m4i-SQ-Ecf" secondAttribute="width" multiplier="0.3" id="99s-vO-wER"/>
