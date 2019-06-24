@@ -12,13 +12,27 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
     
     @IBOutlet var contextButtons: [UIButton]!
     
+    enum Context : Int{
+        case artists
+        case albums
+        case songs
+        case playlists
+    }
+    
+    var context : Context = .artists{
+        didSet{
+            reload()
+            updateButtons(sender: contextButtons[context.rawValue])
+        }
+    }
+    
     var artists = [AudioDetailsArtist](){
         didSet{
             reload()
         }
     }
     
-    var artistFilter : Library_Id?
+    var artistFilter : LibraryId?
     
     var albumsLibrary = [AudioDetailsAlbum](){
         didSet{
@@ -28,9 +42,7 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
     
     var playlists : [PlayList]?
     
-
-    
-    var albumFilter : Library_Id? = nil
+    var albumFilter : LibraryId? = nil
     
     var songs = [SongDetails]()
     
@@ -106,24 +118,24 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
         
     }
     
-    func play(artist: Library_Id){
+    func play(artist: LibraryId){
         let params = AddArtistId(artistid: artist)
-        KodiPlayer.player?.open(libraryId: params, completion: {_,_,_ in})
+        KodiPlayer.player?.playerOpen(libraryId: params, completion: {_,_,_ in})
     }
     
-    func play(album: Library_Id){
+    func play(album: LibraryId){
         let params = AddAlbumId(albumid: album)
         
-        KodiPlayer.player?.open(libraryId: params, completion: {_,_,_ in})
+        KodiPlayer.player?.playerOpen(libraryId: params, completion: {_,_,_ in})
     }
     
-    func play(song: Library_Id){
+    func play(song: LibraryId){
         let params = AddSongId(songid: song)
         
         print("songid: \(song)")
         print(String(describing: songs.filter({$0.songid == song})))
         
-        KodiPlayer.player?.open(libraryId: params, completion: {
+        KodiPlayer.player?.playerOpen(libraryId: params, completion: {
             result, response, error in
             guard let result = result else{
                 self.networkError(response: response, error: error)
@@ -145,29 +157,16 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
 
     
     
-    enum Context : Int{
-        case artists
-        case albums
-        case songs
-        case playlists
-    }
-    
-    var context : Context = .artists{
-        didSet{
-            reload()
-            updateButtons(sender: contextButtons[context.rawValue])
-        }
-    }
-    
-    
 
     func updateButtons(sender: UIButton){
         for button in contextButtons{
             if button == sender{
                 button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                button.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: UIControl.State.normal)
             }
             else{
-                button.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+                button.backgroundColor = #colorLiteral(red: 0.3333333433, green: 0.3333333433, blue: 0.3333333433, alpha: 1)
+                button.setTitleColor(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), for: UIControl.State.normal)
             }
         }
     }
@@ -196,14 +195,13 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
         //todo: some reformat for sender to show feedback to user
     }
     
+    
     func reload(){
         DispatchQueue.main.async { [weak self] in
             self?.mediaLibraryView.reloadData()
         }
     }
     
-
-
     func loadLibrary(){
         DispatchQueue.global(qos: .userInitiated).async{
             self.loadArtistst()
@@ -219,6 +217,7 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
         mediaLibraryView.dataSource = self
         mediaLibraryView.delegate = self
         loadLibrary()
+        navigationItem.title = KodiPlayer.player?.name
     }
     
     override func viewWillAppear(_ animated: Bool){
@@ -424,7 +423,7 @@ extension MusicLibraryViewController{
     
     
     func loadPlaylists(){
-        KodiPlayer.player?.getPlaylists(completion: {
+        KodiPlayer.player?.playlistGetPlaylists(completion: {
             result, response, error in
             
             guard let result = result else {
@@ -435,18 +434,18 @@ extension MusicLibraryViewController{
         })
     }
     
-    private func getArtistsSynchronous(start: Int, end: Int) -> ArtistObj?{
+    private func getArtistsSynchronous(start: Int, end: Int) -> ArtistGetResult?{
         
         let semaphore = DispatchSemaphore.init(value: 0)
         
-        var requestResult : ArtistObj? = nil
+        var requestResult : ArtistGetResult? = nil
         
         let properties : [ArtistProperties] = [.thumbnail, .fanart, .born ]
         let limits = ListLimits(start: start, end: end, total: nil)
         let sortType = ListSort(order: Order(rawValue: "ascending")!, method: "artist", ignorearticle: true)
-        let request = ArtistsGet(properties: properties, limits: limits, sort: sortType)
+        let request = ArtistsGetParams(properties: properties, limits: limits, sort: sortType)
         
-        KodiPlayer.player?.getArtists(properties: request){
+        KodiPlayer.player?.libraryGetArtists(properties: request){
             result, response, error in
             guard let result = result else{
                 self.networkError(response: response, error: error)
@@ -490,7 +489,7 @@ extension MusicLibraryViewController{
     }
     
     
-    func getSongsSynchronous(first: Int, last: Int)-> GetSongsResult?{
+    func getSongsSynchronous(first: Int, last: Int)-> GetSongsResponse?{
         
         let properties: [SongProperties] = [.title, .artist, .artistid, .fanart, .thumbnail, .albumid, .album, .albumartistid ]
         let limits = ListLimits(start: first, end: last, total: nil)
@@ -498,7 +497,7 @@ extension MusicLibraryViewController{
         
         let semaphore = DispatchSemaphore.init(value: 0)
         
-        var songs : GetSongsResult? = nil
+        var songs : GetSongsResponse? = nil
         
         KodiPlayer.player?.libraryGetSongs(properties: properties, limits: limits, sort: sorttype, completion: {
             result, response, error in
@@ -518,7 +517,7 @@ extension MusicLibraryViewController{
         return songs
     }
     
-    func addSongToCurrentPlaylist(song : Library_Id){
+    func addSongToCurrentPlaylist(song : LibraryId){
         if let playlistId = KodiPlayer.player?.currentProperties?.playlistid
         {
             let item = AddSongId(songid: song)
@@ -537,7 +536,7 @@ extension MusicLibraryViewController{
         }
     }
     
-    func addAlbumToCurrentPlaylist(album : Library_Id){
+    func addAlbumToCurrentPlaylist(album : LibraryId){
         if let playlistId = KodiPlayer.player?.currentProperties?.playlistid
         {
             let item = AddAlbumId(albumid: album)
@@ -556,7 +555,7 @@ extension MusicLibraryViewController{
         }
     }
     
-    func addArtistToCurrentPlaylist(artist : Library_Id){
+    func addArtistToCurrentPlaylist(artist : LibraryId){
         if let playlistId = KodiPlayer.player?.currentProperties?.playlistid
         {
             let item = AddArtistId(artistid: artist)

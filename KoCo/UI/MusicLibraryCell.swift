@@ -2,7 +2,7 @@
 //  MusicLibraryCell.swift
 //  KoCo
 //
-//  Created by admin on 18.06.19.
+//  Created by dietWall on 18.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
@@ -15,6 +15,7 @@ protocol MusikLibraryCellDelegate{
 }
 
 
+
 class MusicLibraryCell: UITableViewCell {
 
     override func awakeFromNib() {
@@ -22,11 +23,10 @@ class MusicLibraryCell: UITableViewCell {
         // Initialization code
     }
     
-    var mediaId : Library_Id?
+    var mediaId : LibraryId?
     
     var delegate : MusikLibraryCellDelegate?
     
-    //let title : String? = nil
 
     @IBAction func addButtonPressed(_ sender: UIButton) {
         delegate?.addButtonPressed(cell: self)

@@ -61,21 +61,18 @@ class RemoteControlViewController: UIViewController{
     
     var audioPlayer : ActivePlayer? = nil{
         didSet{
-            //print("RemoteControlViewController: audioplayer has been set")
             reloadPlayer()
         }
     }
     
     var totalTime : GlobalTime? = nil{
         didSet{
-            //print("RemoteControlViewController: totalTime has been set")
             reloadGlobalTime()
         }
     }
     
     var currentTime : GlobalTime? = nil{
         didSet{
-            //print("RemoteControlViewController: currentTime has been set")
             reloadCurrentTime()
             reloadPercentage()
         }
@@ -83,7 +80,6 @@ class RemoteControlViewController: UIViewController{
     
     var percentage : Float? = nil{
         didSet{
-            //print("RemoteControlViewController: percentage has been set")
             reloadPercentage()
         }
     }
@@ -92,7 +88,9 @@ class RemoteControlViewController: UIViewController{
     
     //MARK: ButtonEvents
     @IBAction func setVolume(_ sender: UISlider) {
-        KodiPlayer.player?.setVolume(percentage: Int(sender.value*100.0), completion: {result, response, error in
+        KodiPlayer.player?.setVolume(percentage: Int(sender.value*100.0), completion: {
+            result, response, error in
+            
             guard result != nil else {
                 self.networkError(response: response, error: error)
                 return
@@ -101,13 +99,12 @@ class RemoteControlViewController: UIViewController{
     }
     
     @IBAction func seekPosition(_ sender: UISlider) {
-        
-        let percentage = sender.value*100.00
-        
+        let percentage = sender.value*100.0
         if let playerId = KodiPlayer.player?.activeAudioPlayer?.playerid{
             let params = SeekRequest(playerid: playerId, value: percentage)
             KodiPlayer.player?.seekPosition(params: params, completion: {
                 result, response, error in
+                
                 guard result != nil else{
                     self.networkError(response: response, error: error)
                     return
@@ -122,20 +119,18 @@ class RemoteControlViewController: UIViewController{
         
         switch(sender.tag){
         case PlayerControlButtons.skipToStart.rawValue:
-            KodiPlayer.player?.inputExecuteAction(for: .skipprevious, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.inputExecuteAction(for: .skipprevious, completion: inputActionCompletion(result:response:error:))
         case PlayerControlButtons.rewind.rawValue:
-            KodiPlayer.player?.inputExecuteAction(for: .rewind, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.inputExecuteAction(for: .rewind, completion: inputActionCompletion(result:response:error:))
         case PlayerControlButtons.stop.rawValue:
-            KodiPlayer.player?.inputExecuteAction(for: .stop, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.inputExecuteAction(for: .stop, completion: inputActionCompletion(result:response:error:))
         case PlayerControlButtons.pause.rawValue:
-            KodiPlayer.player?.inputExecuteAction(for: .pause, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.inputExecuteAction(for: .pause, completion: inputActionCompletion(result:response:error:))
         case PlayerControlButtons.fastForward.rawValue:
-            KodiPlayer.player?.inputExecuteAction(for: .fastforward, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.inputExecuteAction(for: .fastforward, completion: inputActionCompletion(result:response:error:))
         case PlayerControlButtons.skipToNext.rawValue:
-            KodiPlayer.player?.inputExecuteAction(for: .skipnext, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.inputExecuteAction(for: .skipnext, completion: inputActionCompletion(result:response:error:))
         case PlayerControlButtons.toggleRepeat.rawValue:
-            //usually we don´t need surrounding if here, because its not possible to press buttons
-            //if no player is active. but be as safe as possible
             
             let newMode : RepeatMode
             
@@ -150,17 +145,19 @@ class RemoteControlViewController: UIViewController{
                 newMode = .off
             }
             
+            //usually we don´t need surrounding if here, because its not possible to press buttons
+            //if no player is active. but be as safe as possible
             if let id = KodiPlayer.player?.activeAudioPlayer?.playerid{
-                KodiPlayer.player?.setRepeat(playerId: id, mode: newMode, completion: directionKeyCompletion(result:response:error:))
+                KodiPlayer.player?.playerSetRepeat(playerId: id, mode: newMode, completion: inputActionCompletion(result:response:error:))
             }
             
         case PlayerControlButtons.shuffle.rawValue:
             //usually we don´t need surrounding if here, because its not possible to press buttons
             //if no player is active. but be as safe as possible
             if let id = KodiPlayer.player?.activeAudioPlayer?.playerid{
-                KodiPlayer.player?.setShuffle(playerId: id,
+                KodiPlayer.player?.playerSetShuffle(playerId: id,
                                               shuffle: !(KodiPlayer.player?.currentProperties?.shuffled ?? true),       //negate old value, defaultValue: !true => false
-                                              completion: directionKeyCompletion(result:response:error:))
+                                              completion: inputActionCompletion(result:response:error:))
             }
         default:
             print("unknown Sender Tag: \(sender.tag)")
@@ -168,48 +165,45 @@ class RemoteControlViewController: UIViewController{
     }
     
     @IBAction func contextMenuPressed(_ sender: UIButton) {
-        KodiPlayer.player?.inputExecuteAction(for: .contextmenu, completion: directionKeyCompletion(result:response:error:))
+        KodiPlayer.player?.inputExecuteAction(for: .contextmenu, completion: inputActionCompletion(result:response:error:))
     }
     
     @IBAction func osdMenuPressed(_ sender: UIButton) {
-        KodiPlayer.player?.inputExecuteAction(for: .osd, completion: directionKeyCompletion(result:response:error:))
+        KodiPlayer.player?.inputExecuteAction(for: .osd, completion: inputActionCompletion(result:response:error:))
     }
     
     @IBAction func directionKeyPressed(_ sender: UIButton) {
         
         switch(sender.tag){
         case NavigationButtonTags.Up.rawValue:
-            KodiPlayer.player?.navigate(to: .Up, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.navigate(to: .Up, completion: inputActionCompletion(result:response:error:))
         case NavigationButtonTags.Down.rawValue:
-            KodiPlayer.player?.navigate(to: .Down, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.navigate(to: .Down, completion: inputActionCompletion(result:response:error:))
         case NavigationButtonTags.Left.rawValue:
-            KodiPlayer.player?.navigate(to: .Left, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.navigate(to: .Left, completion: inputActionCompletion(result:response:error:))
         case NavigationButtonTags.Right.rawValue:
-            KodiPlayer.player?.navigate(to: .Right, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.navigate(to: .Right, completion: inputActionCompletion(result:response:error:))
         case NavigationButtonTags.Enter.rawValue:
-            KodiPlayer.player?.navigate(to: .Enter, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.navigate(to: .Enter, completion: inputActionCompletion(result:response:error:))
         case NavigationButtonTags.Back.rawValue:
-            KodiPlayer.player?.navigate(to: .Back, completion: directionKeyCompletion(result:response:error:))
+            KodiPlayer.player?.navigate(to: .Back, completion: inputActionCompletion(result:response:error:))
         default:
             print("unknown button title : \(String(describing: sender.tag))")
         }
     }
     
     @IBAction func infoButtonPressed(_ sender: Any) {
-        KodiPlayer.player?.inputExecuteAction(for: .info, completion: directionKeyCompletion(result:response:error:))
+        KodiPlayer.player?.inputExecuteAction(for: .info, completion: inputActionCompletion(result:response:error:))
     }
     
     //MARK: Observer Functions
     @objc func onPropertiesRefreshed(){
-       
         if currentTime != KodiPlayer.player?.currentProperties?.time{
             currentTime = KodiPlayer.player?.currentProperties?.time
         }
-        
         if percentage != KodiPlayer.player?.currentProperties?.percentage{
             percentage = KodiPlayer.player?.currentProperties?.percentage
         }
-        
         reloadButtons()
     }
     
@@ -232,12 +226,27 @@ class RemoteControlViewController: UIViewController{
         }
     }
     
+    @objc func onStatusRefreshed(){
+        if currentItem != KodiPlayer.player?.currentItem{
+            currentItem = KodiPlayer.player?.currentItem
+        }
+        if totalTime != KodiPlayer.player?.currentProperties?.totaltime{
+            totalTime = KodiPlayer.player?.currentProperties?.totaltime
+        }
+        if audioPlayer != KodiPlayer.player?.activeAudioPlayer{
+            audioPlayer = KodiPlayer.player?.activeAudioPlayer
+        }
+        if currentTime != KodiPlayer.player?.currentProperties?.time{
+            currentTime = KodiPlayer.player?.currentProperties?.time
+        }
+        if percentage != KodiPlayer.player?.currentProperties?.percentage{
+            percentage = KodiPlayer.player?.currentProperties?.percentage
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onPropertiesRefreshed), name: .propertiesRefresh, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onPlayerRefresh), name: .playerRefresh, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(onItemRefreshed), name: .itemChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onStatusRefreshed), name: .statusRefreshedNotificaten, object: nil)
         
     }
     
@@ -245,6 +254,7 @@ class RemoteControlViewController: UIViewController{
         super.viewDidLoad()
         audioPlayer = nil
         currentItem = nil
+        navigationItem.title = KodiPlayer.player?.name
     }
     
     override func viewWillDisappear(_ animated: Bool){
@@ -252,7 +262,7 @@ class RemoteControlViewController: UIViewController{
     }
 
     
-    private func directionKeyCompletion(result: String?, response: HTTPURLResponse?, error: Error? ){
+    private func inputActionCompletion(result: String?, response: HTTPURLResponse?, error: Error? ){
         guard let _ = result else {
             networkError(response: response, error: error)
             return
@@ -274,47 +284,39 @@ class RemoteControlViewController: UIViewController{
             DispatchQueue.main.async { [weak self] in
                 self?.playerStatusView.isHidden = true
             }
-            
         }
     }
     
     func reloadImage(){
+        
         guard let item = currentItem else{
+            //No Item: No Image
             setImage(img: nil)
             return
         }
+    
         
-        let path = item.thumbnail
-        
-        if  path != nil ||  path == ""{
-            //generate img
-            let img = UIImage.imageWith(name: item.artist?[0])
-            setImage(img: img)
-            //setImage(img: nil)
-            return
+        if let id = item.id{
+            if let path = KodiPlayer.player?.imagePaths[id]{
+                print("item has path")
+                if let image = KodiPlayer.player?.getImage(kodiFileUrl: path){
+                    print("got image")
+                    setImage(img: image)
+                    
+                }
+            }
+            //No image available: generate one
+            else{
+                if let artistName = item.artist?[0]{
+                    setImage(img: UIImage.imageWith(string: artistName))
+                }
+            }
         }
-        
-        //We have an image
-        KodiPlayer.player?.fileDownload(kodiFileUrl: path!, completion: {
-            data, response, error in
-            
-            guard let data = data else {
-                print("reloadimg error while downloading image")
-                self.networkError(response: response, error: error)
-                return
-            }
-            
-            if let img = KodiPlayer.player?.getImage(kodiFileUrl: data.details.path){
-                self.setImage(img: img)
-            }
-        })
-        
     }
     
     func reloadItem(){
         guard let item = currentItem else {
             self.setText(text: "")
-            //self.setImage(url: nil)
             return
         }
         
@@ -402,39 +404,7 @@ class RemoteControlViewController: UIViewController{
             self?.previewImage.image = img
         }
     }
-    
-    
-    private func setImage(url: String?){
-        guard let url = url else{
-            DispatchQueue.main.async { [weak self] in
-                self?.previewImage.image = nil
-            }
-            return
-        }
         
-        if url == ""{
-            DispatchQueue.main.async { [weak self] in
-                self?.previewImage.image = nil
-            }
-            return
-        }
-        
-        KodiPlayer.player?.fileDownload(kodiFileUrl: url, completion: {
-            data, response, error in
-            
-            guard let data = data else {
-                print("data: nil")
-                return
-            }
-            
-            if let img = KodiPlayer.player?.getImage(kodiFileUrl: data.details.path){
-                DispatchQueue.main.async { [weak self] in
-                    self?.previewImage.image = img
-                }
-            }
-        })
-    }
-    
     private func setText(text: String){
         DispatchQueue.main.async { [weak self] in
             self?.previewLabel.text = text

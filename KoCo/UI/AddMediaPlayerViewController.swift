@@ -7,14 +7,19 @@
 //
 
 import UIKit
+import Network
 
 class AddMediaPlayerViewController: UIViewController{
+    //Here we need some own Notifications:
     
     private lazy var authentificationFailedNotification = UINotification(title: "Authentification failed!", alertStyle: .alert, message: "Player rejected username or password", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
     private lazy var  successNotification = UINotification(title: "Success!", alertStyle: .alert, message: "Successfully saved player", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
+    
     private lazy var invalidUrlNotification = UINotification(title: "Invalid URL", alertStyle: .alert, message: "The given url is incorrect", actions: [UINotificationButton(text: "Ok", style: .default)] )
+    
+    private lazy var invalidNameNotification = UINotification(title: "Invalid name", alertStyle: .alert, message: "Please type in a name", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -40,13 +45,31 @@ class AddMediaPlayerViewController: UIViewController{
     
     @IBAction func checkPlayerAvailable(_ sender: UIButton) {
         
+        //Validate Input
+        guard let playerName = nameTextField.text, nameTextField.text != "" else {
+            invalidName()
+            return
+        }
+
+        guard let urlstring = urlTextField?.text, urlTextField.text != "" else{
+            invalidUrl()
+            return
+        }
+        
+        guard  let _ = IPv4Address(urlstring) else {
+            invalidUrl()
+            return
+        }
+        
         //Create Player
-        guard let player = KodiPlayer(name: (nameTextField.text)!, url: urlTextField.text!, user: userNameTextField.text, password: passwordTextField.text) else{
+        guard let player =
+            KodiPlayer(name: playerName, url: urlstring, user: userNameTextField.text, password: passwordTextField.text)
+            else{
             //Set Cursor in the UrlTextField, last character, so user can modify the url
             self.invalidUrl()
             return
         }
-        
+    
         print(player)
         
         self.showSpinner(onView: self.view)
@@ -93,6 +116,11 @@ class AddMediaPlayerViewController: UIViewController{
     }
     
     
+    private func invalidName(){
+        presentUINotification(notification: invalidNameNotification)
+        jumpToTextField(textField: nameTextField)
+    }
+    
     
     private func createAlarmPlayerNotReachable(player: KodiPlayer){
         //TODO: It would be nice to make this also via Notification Extension
@@ -103,7 +131,7 @@ class AddMediaPlayerViewController: UIViewController{
         }))
 
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Default action"), style: .default, handler: { _ in
-            //dont save, clear the fields
+            //dont save, clear the url field
             self.urlTextField.text = ""
         }))
 

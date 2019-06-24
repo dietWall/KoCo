@@ -15,7 +15,6 @@ enum ReleaseType :String, Codable{
 
 
 enum AlbumProperties : String, Codable{
-    //case id
     case title
     case description
     case artist
@@ -47,15 +46,12 @@ struct RequestAlbumsParams: Codable{
     let properties      : [AlbumProperties]
     let limits          : ListLimits
     let sort            : ListSort
-    //let artistfilter    :
-    //TODO: Filter
     let includesingles  : Bool?
     let allroles        : Bool?
 }
 
 
 struct AudioDetailsAlbum : Codable{
-    //let id : Library_Id?
     let title : String?
     let description : String?
     let artist : [String]?
@@ -73,8 +69,8 @@ struct AudioDetailsAlbum : Codable{
     let musicbrainzalbumartistid : String?
     let thumbnail : String?
     let playcount : Int?
-    let genreid  : [Library_Id]?
-    let artistid : [Library_Id]?
+    let genreid  : [LibraryId]?
+    let artistid : [LibraryId]?
     let displayartist : String?
     let compilation : Bool?
     let releasetype : ReleaseType?

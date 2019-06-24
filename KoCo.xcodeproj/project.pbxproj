@@ -17,16 +17,14 @@
 		841B21CE22B58B18000CA84F /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841B21CD22B58B18000CA84F /* TextField.swift */; };
 		841B21D022B5987D000CA84F /* GlobalTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841B21CF22B5987D000CA84F /* GlobalTime.swift */; };
 		841B21D222B5A1C8000CA84F /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841B21D122B5A1C8000CA84F /* Playlist.swift */; };
-		844A899F22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A899E22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift */; };
 		844A89A122A4023D000ED2EB /* PlaylistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A89A022A4023D000ED2EB /* PlaylistTableViewController.swift */; };
 		844A89A322A40283000ED2EB /* MusicLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844A89A222A40283000ED2EB /* MusicLibraryViewController.swift */; };
 		844B71E922A5359D00805B37 /* JSonRpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485843B22918957006064A0 /* JSonRpc.swift */; };
-		844B71EB22A6527400805B37 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B71EA22A6527400805B37 /* Action.swift */; };
+		844B71EB22A6527400805B37 /* InputAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B71EA22A6527400805B37 /* InputAction.swift */; };
 		844B71EE22A79AB900805B37 /* KodiUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B71ED22A79AB900805B37 /* KodiUtils.swift */; };
 		844B71EF22A79AB900805B37 /* KodiUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844B71ED22A79AB900805B37 /* KodiUtils.swift */; };
 		8450591E22BAA0BB00C11BA6 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8450591D22BAA0BB00C11BA6 /* Song.swift */; };
 		8455715722B84BF000D4842A /* MusicLibraryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455715622B84BF000D4842A /* MusicLibraryCell.swift */; };
-		8455715922B994B700D4842A /* KodiStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455715822B994B700D4842A /* KodiStatus.swift */; };
 		8455715B22B9A62800D4842A /* NSNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8455715A22B9A62800D4842A /* NSNotification.swift */; };
 		84629D7B229FB98B00B9455A /* RemoteControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */; };
 		84858414229177C1006064A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84858413229177C1006064A0 /* AppDelegate.swift */; };
@@ -46,9 +44,7 @@
 		84908BF622A943470085C678 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84908BF522A943470085C678 /* Version.swift */; };
 		84908BF822A943700085C678 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84908BF722A943700085C678 /* Artist.swift */; };
 		84908BFA22A945CD0085C678 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84908BF922A945CD0085C678 /* Library.swift */; };
-		84A331F722B7956D005D05B6 /* KodiErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A331F622B7956D005D05B6 /* KodiErrorHandler.swift */; };
-		84A331F922B7A850005D05B6 /* KodiRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A331F822B7A850005D05B6 /* KodiRefresh.swift */; };
-		84AA52F322BE3C80000E7DE4 /* KodiStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA52F222BE3C80000E7DE4 /* KodiStatusViewController.swift */; };
+		84AA52F722C15DAF000E7DE4 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AA52F622C15DAF000E7DE4 /* Image.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,14 +68,12 @@
 		841B21CD22B58B18000CA84F /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		841B21CF22B5987D000CA84F /* GlobalTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTime.swift; sourceTree = "<group>"; };
 		841B21D122B5A1C8000CA84F /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
-		844A899E22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiPlayerTabBarViewController.swift; sourceTree = "<group>"; };
 		844A89A022A4023D000ED2EB /* PlaylistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewController.swift; sourceTree = "<group>"; };
 		844A89A222A40283000ED2EB /* MusicLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryViewController.swift; sourceTree = "<group>"; };
-		844B71EA22A6527400805B37 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		844B71EA22A6527400805B37 /* InputAction.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = InputAction.swift; sourceTree = "<group>"; };
 		844B71ED22A79AB900805B37 /* KodiUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiUtils.swift; sourceTree = "<group>"; };
 		8450591D22BAA0BB00C11BA6 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		8455715622B84BF000D4842A /* MusicLibraryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibraryCell.swift; sourceTree = "<group>"; };
-		8455715822B994B700D4842A /* KodiStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiStatus.swift; sourceTree = "<group>"; };
 		8455715A22B9A62800D4842A /* NSNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSNotification.swift; sourceTree = "<group>"; };
 		84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlViewController.swift; sourceTree = "<group>"; };
 		84858410229177C1006064A0 /* KoCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KoCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,9 +95,7 @@
 		84908BF522A943470085C678 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
 		84908BF722A943700085C678 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		84908BF922A945CD0085C678 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
-		84A331F622B7956D005D05B6 /* KodiErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiErrorHandler.swift; sourceTree = "<group>"; };
-		84A331F822B7A850005D05B6 /* KodiRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiRefresh.swift; sourceTree = "<group>"; };
-		84AA52F222BE3C80000E7DE4 /* KodiStatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KodiStatusViewController.swift; sourceTree = "<group>"; };
+		84AA52F622C15DAF000E7DE4 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,17 +164,14 @@
 			children = (
 				8485843622917999006064A0 /* AddMediaPlayerViewController.swift */,
 				84629D7A229FB98B00B9455A /* RemoteControlViewController.swift */,
-				844A899E22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift */,
 				844A89A022A4023D000ED2EB /* PlaylistTableViewController.swift */,
 				844A89A222A40283000ED2EB /* MusicLibraryViewController.swift */,
 				8485843822917A9D006064A0 /* DeviceOverviewTableViewController.swift */,
 				841B21C922B58901000CA84F /* Spinner.swift */,
 				841B21CB22B58ABE000CA84F /* UINotification.swift */,
 				841B21CD22B58B18000CA84F /* TextField.swift */,
-				84A331F622B7956D005D05B6 /* KodiErrorHandler.swift */,
-				84A331F822B7A850005D05B6 /* KodiRefresh.swift */,
 				8455715622B84BF000D4842A /* MusicLibraryCell.swift */,
-				84AA52F222BE3C80000E7DE4 /* KodiStatusViewController.swift */,
+				84AA52F622C15DAF000E7DE4 /* Image.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -194,7 +183,6 @@
 				8485843D22919FC0006064A0 /* KodiPlayer.swift */,
 				8485846F229877E3006064A0 /* KodiApi.swift */,
 				844B71ED22A79AB900805B37 /* KodiUtils.swift */,
-				8455715822B994B700D4842A /* KodiStatus.swift */,
 				8455715A22B9A62800D4842A /* NSNotification.swift */,
 			);
 			path = Network;
@@ -203,7 +191,7 @@
 		84908BF422A942FB0085C678 /* KodiTypes */ = {
 			isa = PBXGroup;
 			children = (
-				844B71EA22A6527400805B37 /* Action.swift */,
+				844B71EA22A6527400805B37 /* InputAction.swift */,
 				841B21BF22B0537B000CA84F /* ActivePlayer.swift */,
 				841B21C522B12C81000CA84F /* Album.swift */,
 				84908BF722A943700085C678 /* Artist.swift */,
@@ -323,24 +311,20 @@
 			files = (
 				84629D7B229FB98B00B9455A /* RemoteControlViewController.swift in Sources */,
 				841B21D222B5A1C8000CA84F /* Playlist.swift in Sources */,
-				844A899F22A3F27F000ED2EB /* KodiPlayerTabBarViewController.swift in Sources */,
 				844A89A322A40283000ED2EB /* MusicLibraryViewController.swift in Sources */,
 				841B21CE22B58B18000CA84F /* TextField.swift in Sources */,
+				84AA52F722C15DAF000E7DE4 /* Image.swift in Sources */,
 				841B21CC22B58ABE000CA84F /* UINotification.swift in Sources */,
 				84908BF822A943700085C678 /* Artist.swift in Sources */,
 				84858470229877E3006064A0 /* KodiApi.swift in Sources */,
 				84908BF622A943470085C678 /* Version.swift in Sources */,
-				84A331F722B7956D005D05B6 /* KodiErrorHandler.swift in Sources */,
 				8455715722B84BF000D4842A /* MusicLibraryCell.swift in Sources */,
-				84A331F922B7A850005D05B6 /* KodiRefresh.swift in Sources */,
 				84908BF322A941BD0085C678 /* List.swift in Sources */,
-				844B71EB22A6527400805B37 /* Action.swift in Sources */,
-				8455715922B994B700D4842A /* KodiStatus.swift in Sources */,
+				844B71EB22A6527400805B37 /* InputAction.swift in Sources */,
 				8485843C22918957006064A0 /* JSonRpc.swift in Sources */,
 				841B21D022B5987D000CA84F /* GlobalTime.swift in Sources */,
 				844B71EE22A79AB900805B37 /* KodiUtils.swift in Sources */,
 				841B21C222B12046000CA84F /* Item.swift in Sources */,
-				84AA52F322BE3C80000E7DE4 /* KodiStatusViewController.swift in Sources */,
 				841B21CA22B58901000CA84F /* Spinner.swift in Sources */,
 				8485843922917A9D006064A0 /* DeviceOverviewTableViewController.swift in Sources */,
 				844A89A122A4023D000ED2EB /* PlaylistTableViewController.swift in Sources */,

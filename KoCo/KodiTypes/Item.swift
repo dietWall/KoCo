@@ -2,19 +2,19 @@
 //  Item.swift
 //  KoCo
 //
-//  Created by admin on 12.06.19.
+//  Created by dietWall on 12.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
 import Foundation
 
 
-struct CurrentItemRequest: Codable{
+struct GetCurrentItemParams: Codable{
     let properties      : [ListFieldsAll]
     let playerid        : Int
 }
 
-struct CurrentItemResponse: Codable{
+struct ListItemBase: Codable{
     let album : String?
     let albumartist : [String]?
     let albumartistid : [Int]?
@@ -36,7 +36,7 @@ struct CurrentItemResponse: Codable{
     let episode  : Int?
     let episodeguide : String?
     let firstaired : String?
-    let id : Library_Id?
+    let id : LibraryId?
     let imdbnumber : String?
     let lyrics : String?
     let mood :[ String]?
@@ -50,7 +50,7 @@ struct CurrentItemResponse: Codable{
     let releasetype : ReleaseType?
     let season  : Int?
     let set : String?
-    let setid : Library_Id?
+    let setid : LibraryId?
     let showlink :[ String]?
     let showtitle : String?
     let sorttitle : String?
@@ -64,16 +64,16 @@ struct CurrentItemResponse: Codable{
     let top250 : Int?
     let track : Int?
     let trailer : String?
-    let tvshowid : Library_Id?
+    let tvshowid : LibraryId?
     let type: String?
-    let uniqueid :Int?             //this one is an object, but not clearly defined!!!
+    let uniqueid :Int?             //this one is an object, but not clearly defined, at least I couldn´t find it!!!
     let votes : String?
     let watchedepisodes : Int?
     let writer :[ String]?
 }
 
 struct ItemResult: Codable{
-    let item: CurrentItemResponse
+    let item: ListItemBase
 }
 
 

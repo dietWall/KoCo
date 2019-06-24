@@ -10,7 +10,7 @@ import Foundation
 
 
 
-enum Action : String,  Codable{
+enum InputAction : String,  Codable{
     case left
     case right
     case up
@@ -212,6 +212,6 @@ enum Action : String,  Codable{
     case noop
 }
 
-struct ActionParam : Codable{
-    let action : Action
+struct InputActionParam : Codable{
+    let action : InputAction
 }

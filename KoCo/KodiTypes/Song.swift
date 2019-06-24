@@ -53,7 +53,7 @@ struct SongDetails : Codable{
     let album               : String?
     let albumartist         : [String]?
     let albumartistid       : [Int]?
-    let albumid             : Library_Id?
+    let albumid             : LibraryId?
     let albumreleasetype    : ReleaseType?
     let comment             : String?
     let contributors        : [ArtistContributors]?
@@ -70,17 +70,17 @@ struct SongDetails : Codable{
     let musicbrainzartistid : String?
     let musicbrainztrackid  : String?
     let playcount           : Int?
-    let songid              : Library_Id?
+    let songid              : LibraryId?
     let track               : Int?
 }
 
-struct GetSongsParams: Codable{
+struct GetSongsParams : Codable{
     let properties: [SongProperties]
     let limits: ListLimits
     let sort: ListSort
 }
 
-struct GetSongsResult:Codable{
+struct GetSongsResponse : Codable{
     let songs: [SongDetails]
     let limits: ListLimitsReturned
 }

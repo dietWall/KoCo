@@ -2,7 +2,7 @@
 //  GlobalTime.swift
 //  KoCo
 //
-//  Created by admin on 15.06.19.
+//  Created by dietWall on 15.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 

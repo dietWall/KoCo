@@ -108,7 +108,7 @@ enum RepeatMode : String, Codable{
     case all
 }
 
-struct PlayerPropertiesRequest : Codable{
+struct PlayerPropertiesParams : Codable{
     let playerid : Int
     let properties: [PlayerProperties]
 }

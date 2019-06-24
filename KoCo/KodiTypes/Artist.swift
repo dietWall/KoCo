@@ -29,7 +29,7 @@ enum ArtistProperties :String, Codable{
     case isalbumartist
 }
 
-struct ArtistsGet: Codable{
+struct ArtistsGetParams: Codable{
     let properties          : [ArtistProperties]
     let limits              : ListLimits
     let sort                : ListSort
@@ -54,15 +54,15 @@ struct AudioDetailsArtist : Codable{
     let yearsactive             : [String]?
 }
 
-struct ArtistObj : Codable{
+struct ArtistGetResult : Codable{
     let artists : [AudioDetailsArtist]
     let limits : ListLimitsReturned
 }
 
 
 struct ArtistContributors: Codable{
-    let artistid : Library_Id
+    let artistid : LibraryId
     let name: String?
     let role: String?
-    let roleid: Library_Id?
+    let roleid: LibraryId?
 }

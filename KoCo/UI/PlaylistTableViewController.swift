@@ -57,6 +57,8 @@ class PlaylistTableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(statusRefreshed), name: .statusRefreshedNotificaten, object: nil)
+        
+        navigationItem.title = KodiPlayer.player?.name
 
     }
     
@@ -108,12 +110,14 @@ class PlaylistTableViewController: UITableViewController{
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        //No Player, but playlist is not empty
+        
+        //Special case: No Player, but playlist is not empty
+        //It happens, when stopped while playing
         if KodiPlayer.player?.activeAudioPlayer == nil{
             return 0
         }
         
+        //otherwise: current playlist.count, if not available : 0
         return KodiPlayer.player?.playlist?.count ?? 0
     }
 
@@ -135,19 +139,20 @@ class PlaylistTableViewController: UITableViewController{
                         
                     }
                 }
-                    //No image available: generate one
+                //No image available: generate one
                 else{
                     if let artistName = item.artist?[0]{
-                        cell.imageView?.image =  UIImage.imageWith(name: artistName)
+                        cell.imageView?.image =  UIImage.imageWith(string: artistName)
                     }
                     
                 }
             }
+            
             if indexPath.row == KodiPlayer.player?.currentProperties?.position{
                 cell.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
             }
             else {
-                cell.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             }
         }
         return cell
@@ -190,7 +195,7 @@ class PlaylistTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //Playlist Items will be kept in Playlist if player stopped
         if KodiPlayer.player?.activeAudioPlayer != nil{
-            KodiPlayer.player?.goTo(playlistPosition: indexPath.row, playerId: (KodiPlayer.player?.activeAudioPlayer?.playerid)!, completion: {
+            KodiPlayer.player?.playerGoTo(playlistPosition: indexPath.row, playerId: (KodiPlayer.player?.activeAudioPlayer?.playerid)!, completion: {
                 result, response, error in
                 
                 

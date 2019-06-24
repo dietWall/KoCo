@@ -2,21 +2,21 @@
 //  KodiFile.swift
 //  KoCo
 //
-//  Created by admin on 13.06.19.
+//  Created by dietWall on 13.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
 import Foundation
 
 
-struct FileDownloadRequest : Codable{
+struct FileDownloadParams : Codable{
     let path : String
 }
 
 struct FileDownloadResponse : Codable{
-    let details : FileDownloadRequest       //TODO: find a better name for this
+    let details : FileDownloadParams
     let mode : String?
-    let _protocol : String?
+    let _protocol : String?                 //protocol is a keyword in swift
     
     enum CodingKeys: String, CodingKey {
         case _protocol = "protocol"

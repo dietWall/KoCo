@@ -2,7 +2,7 @@
 //  Notification.swift
 //  KoCo
 //
-//  Created by admin on 19.06.19.
+//  Created by dietWall on 19.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
@@ -15,5 +15,4 @@ extension Notification.Name {
     static let itemChanged = Notification.Name("itemChanged")
     static let connectionStatusChanged = Notification.Name("connection")
     static let statusRefreshedNotificaten = Notification.Name("statusRefreshed")
-    
 }

@@ -2,7 +2,7 @@
 //  UrlRequest.swift
 //  KoCo
 //
-//  Created by admin on 05.06.19.
+//  Created by dietWall on 05.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
@@ -32,7 +32,7 @@ extension Array where Element: KodiPlayer{
                 return tmpurl
             }
             catch let error{
-                print("Filemanager hat geschmissen: \(error)")
+                print("FileManager Error : \(error)")
             }
             return URL(string:"Not Implemented")!
         }
@@ -77,7 +77,7 @@ extension URLRequest{
         request.httpMethod = "POST"
         request.setValue("gzip", forHTTPHeaderField: "Accept-Encoding")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = TimeInterval(60.0)     //60 s is far too long
+        request.timeoutInterval = TimeInterval(5.0)
         request.httpBody = data
         request.setValue("\(data)", forHTTPHeaderField: "Content-Length")
         return request
@@ -105,29 +105,4 @@ extension URLRequest{
     
 }
 
-extension UIImage{
-    
-    static func fromURL(url: URL)throws ->UIImage?{
-        let imgData = try Data(contentsOf: url)
-        let img = UIImage(data: imgData)
-        return img
-    }
-    
-    static func imageWith(name: String?) -> UIImage? {
-        let frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        let nameLabel = UILabel(frame: frame)
-        nameLabel.textAlignment = .center
-        nameLabel.backgroundColor = .lightGray
-        nameLabel.textColor = .white
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        nameLabel.text = name
-        UIGraphicsBeginImageContext(frame.size)
-        if let currentContext = UIGraphicsGetCurrentContext() {
-            nameLabel.layer.render(in: currentContext)
-            let nameImage = UIGraphicsGetImageFromCurrentImageContext()
-            return nameImage
-        }
-        return nil
-    }
 
-}

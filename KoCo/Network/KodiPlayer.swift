@@ -7,9 +7,6 @@
 //
 
 import Foundation
-import UIKit
-
-
 
 class KodiPlayer : Codable{
     
@@ -52,7 +49,7 @@ class KodiPlayer : Codable{
             //Avoid memory cycles, delete Reference to oldValue:
             if(oldValue?.timer != nil){
                 oldValue?.timer?.invalidate()
-                print("Singleton: invalidating Timer")
+                print("Singleton deleted: invalidating Timer")
             }
             
             player?.refreshStatus()
@@ -81,53 +78,17 @@ class KodiPlayer : Codable{
         self.url = fullUrl
     }
     
+    var connectionLost = true
     
-    var activePlayer : [ActivePlayer]?{
-        didSet{
-            NotificationCenter.default.post(name: .playerRefresh, object: nil)
-        }
-        
-    }
+    var activePlayer : [ActivePlayer]?
     
-    var activeAudioPlayer : ActivePlayer?{
-        get{
-            return activePlayer?.getFirstAudioPlayer()
-        }
-    }
+    var activeAudioPlayer : ActivePlayer?
     
+    var currentProperties : CurrentProperties?
     
-    var currentProperties : CurrentProperties?{
-        didSet{
-            //Send Message
-            NotificationCenter.default.post(name: .propertiesRefresh, object: nil)
-        }
-    }
+    var imagePaths = [LibraryId : String]()
     
-    var imagePaths = [Library_Id : String]()
-    
-    var playlist : [AudioItem]?{
-        didSet{
-            
-            if playlist != nil{
-                for item in playlist!{
-                    
-                    //non existing  thumbnails will be == ""
-                    if let thumbnail = item.thumbnail, thumbnail != ""{
-                        fileDownload(kodiFileUrl: thumbnail, completion: {
-                            result, response, error in
-                            if let result = result{
-                                //just save the path for later usage
-                                self.imagePaths[item.id!] = result.details.path
-                            }
-                        })
-                    }
-                }
-            }
-            //Send Message
-            let playlistNotification = Notification(name: .playlistRefresh, object: playlist, userInfo: nil)
-            NotificationCenter.default.post(playlistNotification)
-        }
-    }
+    var playlist : [AudioItem]?
     
     var timer : Timer?{
         didSet{
@@ -136,13 +97,7 @@ class KodiPlayer : Codable{
     }
 
     
-    var currentItem : AudioItem?{
-        didSet{
-            let itemNotification = Notification(name: .itemChanged, object: currentItem, userInfo: nil)
-            NotificationCenter.default.post(itemNotification)
-        }
-    }
-
+    var currentItem : AudioItem?
     
     @objc func refreshStatus(){
         
@@ -165,7 +120,7 @@ class KodiPlayer : Codable{
             var item : AudioItem? = nil
             let properties : [ListFieldsAll] = [.title, .artist, .genre, .fanart, .thumbnail, .artistid, .album, .albumid, .setid]
             
-            self.getCurrentItem(properties: properties, playerId: playerId, completion: {
+            self.playerGetItem(properties: properties, playerId: playerId, completion: {
                 result, response, error in
                 guard let result = result else {
                     return
@@ -183,7 +138,7 @@ class KodiPlayer : Codable{
         //get current Active Players
         let semaphore = DispatchSemaphore.init(value: 0)
         var statusResult : [ActivePlayer]? = nil
-        self.getPlayerStatus(completion: {
+        self.playerGetActivePlayers(completion: {
             result, response, error in
             
             guard let result = result else{
@@ -205,18 +160,18 @@ class KodiPlayer : Codable{
         let semaphore = DispatchSemaphore.init(value: 0)
         
         let properties : [PlayerProperties] = [.playlistid, .position, .canshuffle, .percentage, .time, .totaltime, .repeated, .shuffled]
-        let request = PlayerPropertiesRequest(playerid: id, properties: properties)
+        let request = PlayerPropertiesParams(playerid: id, properties: properties)
         
         var propertiesResult : CurrentProperties? = nil
         
-        KodiPlayer.player?.getPlayerProperties(params: request, completion: {
+        KodiPlayer.player?.playerGetPlayerProperties(params: request, completion: {
             result, response, error in
                 
             guard let result = result else{
                 semaphore.signal()
                 return
             }
-            //self.isConnected = true
+            
             propertiesResult = result
             semaphore.signal()
         })
@@ -249,10 +204,11 @@ class KodiPlayer : Codable{
             
             listResult = result.items
             semaphore.signal()
-            //self.playlist = result.items
         })
         semaphore.wait()
         self.playlist = listResult
     }
     
+    
 }
+

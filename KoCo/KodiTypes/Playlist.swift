@@ -21,7 +21,7 @@ struct PlaylistGetItemsParams : Codable{
 
 struct PlaylistGetItemsResponse : Codable{
     let items       : [AudioItem]
-    let limits      : ListLimits
+    let limits      : ListLimitsReturned
 }
 
 
@@ -36,15 +36,15 @@ struct PlaylistRemoveItemResponse : Codable{
 
 
 struct AddArtistId :  Codable{
-    let artistid : Library_Id
+    let artistid : LibraryId
 }
 
 struct AddAlbumId : Codable{
-    let albumid : Library_Id
+    let albumid : LibraryId
 }
 
 struct AddSongId : Codable{
-    let songid : Library_Id
+    let songid : LibraryId
 }
 
 struct PlaylistAddItemsParams<ItemType : Codable> : Codable{
