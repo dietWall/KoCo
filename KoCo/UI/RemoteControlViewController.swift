@@ -12,6 +12,27 @@ import UIKit
 
 class RemoteControlViewController: UIViewController{
 
+    enum NavigationButtonTags : Int{
+        case Up
+        case Right
+        case Down
+        case Left
+        case Enter
+        case Back
+    }
+    
+    enum PlayerControlButtons : Int{
+        case skipToStart
+        case rewind
+        case stop
+        case pause
+        case fastForward
+        case skipToNext
+        case shuffle
+        case toggleRepeat
+    }
+    
+    //MARK: Outlets
     @IBOutlet weak var previewImage: UIImageView!
     
     @IBOutlet weak var previewLabel: UILabel!
@@ -27,161 +48,78 @@ class RemoteControlViewController: UIViewController{
     @IBOutlet weak var repeatButton: UIButton!
     
     @IBOutlet weak var playerStatusView: UIView!
-
     
-    //Timer for activePlayerStatus
-    var timer : Timer?
-    
-    enum NavigationButtonTags : Int{
-        case Up
-        case Right
-        case Down
-        case Left
-        case Enter
-        case Back
-    }
-
-    enum PlayerControlButtons : Int{
-        case skipToStart
-        case rewind
-        case stop
-        case pause
-        case fastForward
-        case skipToNext
-        case shuffle
-        case toggleRepeat
-    }
-    
-    var activePlayer = [ActivePlayer](){
+    //MARK: Model
+    var currentItem : AudioItem? = nil{
         didSet{
-            if activePlayer.count == 0{
-                DispatchQueue.main.async { [weak self] in
-                    self?.playerStatusView.isHidden = true
-                }
-            }
-            else{
-                fillItemView()
-                fillPlayerProperties()
-                DispatchQueue.main.async { [weak self] in
-                    self?.playerStatusView.isHidden = false
-                }
-            }
+            print("RemoteControlViewController: item has been set")
+            reloadItem()
+            reloadImage()
+            reloadGlobalTime()
         }
     }
     
-    var activeAudioPlayer : ActivePlayer?{
-        get{
-            return self.activePlayer.filter{$0.type == "audio"}[0]
-        }
-    }
-    
-    var currentProperties : CurrentProperties?{
-
+    var audioPlayer : ActivePlayer? = nil{
         didSet{
-            //Update UI: Maybe better in a function??
-            if(currentProperties?.time != nil){
-                DispatchQueue.main.async { [weak self] in
-                    self?.currentTimeLabel.text = self?.currentProperties?.time?.getFormatted()
-                }
-            }
-            if(currentProperties?.totaltime != nil){
-                DispatchQueue.main.async { [weak self] in
-                    self?.totalTimeLabel.text = self?.currentProperties?.totaltime?.getFormatted()
-                }
-            }
-            
-            if(currentProperties?.percentage != nil){
-                DispatchQueue.main.async { [weak self] in
-                    self?.percentageSlider.value = ((self?.currentProperties?.percentage!)!) / 100.00
-                }
-            }
-            
-            if let shuffled = currentProperties?.shuffled{
-                if shuffled == true{
-                    DispatchQueue.main.async { [weak self] in
-                        //self?.shuffleButton.imageView?.image = UIImage(named: "shuffle-50")
-                        self?.shuffleButton.imageView?.image = #imageLiteral(resourceName: "shuffle-50")
-                    }
-                }
-                else{
-                    DispatchQueue.main.async { [weak self] in
-                        //self?.shuffleButton.imageView?.image = UIImage(named: "shuffle-grey-50")
-                        self?.shuffleButton.imageView?.image = #imageLiteral(resourceName: "shuffle-grey-50")
-                    }
-                }
-            }
-            
-            
-            if let repeated = currentProperties?.repeated{
-                let img : UIImage
-                
-                switch(repeated){
-                case .off:
-                    img = #imageLiteral(resourceName: "repeat-grey")
-                case .one:
-                    img = #imageLiteral(resourceName: "repeat-one-50")
-                case .all:
-                    img = #imageLiteral(resourceName: "repeat-50")
-                }
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.repeatButton.imageView?.image = img
-                }
-            }
+            //print("RemoteControlViewController: audioplayer has been set")
+            reloadPlayer()
         }
     }
     
-    
-    
-    func fillPlayerProperties(){
-        let props : [PlayerProperties] = [.canshuffle, .percentage, .playlistid, .position, .time, .totaltime, .repeated, .shuffled]
-        
-        guard let id = activeAudioPlayer?.playerid else {
-            //Nothing playing now
-            return
+    var totalTime : GlobalTime? = nil{
+        didSet{
+            //print("RemoteControlViewController: totalTime has been set")
+            reloadGlobalTime()
         }
-        
-        let params = PlayerPropertiesRequest(playerid: id, properties: props)
-        KodiPlayer.player?.getPlayerProperties(params: params, completion: {
-            result, response, error in
-            
-            guard let result = result else {
-                print("FillPlayerProperties: irgendwas undefiniertes passiert hier")
+    }
+    
+    var currentTime : GlobalTime? = nil{
+        didSet{
+            //print("RemoteControlViewController: currentTime has been set")
+            reloadCurrentTime()
+            reloadPercentage()
+        }
+    }
+    
+    var percentage : Float? = nil{
+        didSet{
+            //print("RemoteControlViewController: percentage has been set")
+            reloadPercentage()
+        }
+    }
+    
+
+    
+    //MARK: ButtonEvents
+    @IBAction func setVolume(_ sender: UISlider) {
+        KodiPlayer.player?.setVolume(percentage: Int(sender.value*100.0), completion: {result, response, error in
+            guard result != nil else {
+                self.networkError(response: response, error: error)
                 return
             }
-            
-            self.currentProperties = result
         })
     }
     
-    func fillItemView(){
-        if let playerId = activeAudioPlayer?.playerid{
-            
-            let requestProps :[ListFiedsAll] = [.artist, .albumartist, .album, .displayartist, .showtitle, .fanart, .thumbnail, .track, .title, .art]
-            
-            KodiPlayer.player?.getCurrentItem(properties: requestProps, playerId: playerId, completion:
-                {result, response, error in
-                    guard let result = result else{
-                        return
-                    }
-                    
-                    self.setText(text: result.item.getFormated())
-                    self.setImage(url: result.item.thumbnail)
+    @IBAction func seekPosition(_ sender: UISlider) {
+        
+        let percentage = sender.value*100.00
+        
+        if let playerId = KodiPlayer.player?.activeAudioPlayer?.playerid{
+            let params = SeekRequest(playerid: playerId, value: percentage)
+            KodiPlayer.player?.seekPosition(params: params, completion: {
+                result, response, error in
+                guard result != nil else{
+                    self.networkError(response: response, error: error)
+                    return
+                }
             })
         }
     }
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.refreshPlayerStatus()      //refresh first time and start Timer
-    }
-    
-
-    
-
-    //MARK: ButtonEvents
     @IBAction func playerControlButtonPressed(_ sender: UIButton) {
+        print("playerControll: \(sender.tag)")
+        
         switch(sender.tag){
         case PlayerControlButtons.skipToStart.rawValue:
             KodiPlayer.player?.inputExecuteAction(for: .skipprevious, completion: directionKeyCompletion(result:response:error:))
@@ -201,7 +139,7 @@ class RemoteControlViewController: UIViewController{
             
             let newMode : RepeatMode
             
-            switch(currentProperties?.repeated){
+            switch(KodiPlayer.player?.currentProperties?.repeated){
             case .off?:
                 newMode = .all
             case .all?:
@@ -212,15 +150,17 @@ class RemoteControlViewController: UIViewController{
                 newMode = .off
             }
             
-            if let id = self.activeAudioPlayer?.playerid{
+            if let id = KodiPlayer.player?.activeAudioPlayer?.playerid{
                 KodiPlayer.player?.setRepeat(playerId: id, mode: newMode, completion: directionKeyCompletion(result:response:error:))
             }
+            
         case PlayerControlButtons.shuffle.rawValue:
             //usually we don´t need surrounding if here, because its not possible to press buttons
             //if no player is active. but be as safe as possible
-            
-            if let id = self.activeAudioPlayer?.playerid{
-                KodiPlayer.player?.setShuffle(playerId: id, shuffle: !(self.currentProperties?.shuffled ?? true) , completion: directionKeyCompletion(result:response:error:))
+            if let id = KodiPlayer.player?.activeAudioPlayer?.playerid{
+                KodiPlayer.player?.setShuffle(playerId: id,
+                                              shuffle: !(KodiPlayer.player?.currentProperties?.shuffled ?? true),       //negate old value, defaultValue: !true => false
+                                              completion: directionKeyCompletion(result:response:error:))
             }
         default:
             print("unknown Sender Tag: \(sender.tag)")
@@ -234,30 +174,6 @@ class RemoteControlViewController: UIViewController{
     @IBAction func osdMenuPressed(_ sender: UIButton) {
         KodiPlayer.player?.inputExecuteAction(for: .osd, completion: directionKeyCompletion(result:response:error:))
     }
-    
-    
-    private func directionKeyCompletion(result: String?, response: HTTPURLResponse?, error: Error? ){
-        if result != nil{
-            return
-        }
-        else{
-            if let response = response{
-                
-                let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: " + String(response.statusCode), actions: [NotificationButton(text: "Ok", style: .default)] )
-                
-                self.createNotification(notification: connectionFailedNotification)
-            }
-            else{
-                let errorstring = error?.localizedDescription ?? "No Response from host"
-                
-                let internalErrorNotification  = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: " + errorstring, actions: [NotificationButton(text: "Ok", style: .default)] )
-                
-                createNotification(notification: internalErrorNotification)
-            }
-        }
-    }
-    
-    
     
     @IBAction func directionKeyPressed(_ sender: UIButton) {
         
@@ -278,74 +194,231 @@ class RemoteControlViewController: UIViewController{
             print("unknown button title : \(String(describing: sender.tag))")
         }
     }
-
-    
-
     
     @IBAction func infoButtonPressed(_ sender: Any) {
         KodiPlayer.player?.inputExecuteAction(for: .info, completion: directionKeyCompletion(result:response:error:))
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    //MARK: Observer Functions
+    @objc func onPropertiesRefreshed(){
+       
+        if currentTime != KodiPlayer.player?.currentProperties?.time{
+            currentTime = KodiPlayer.player?.currentProperties?.time
+        }
+        
+        if percentage != KodiPlayer.player?.currentProperties?.percentage{
+            percentage = KodiPlayer.player?.currentProperties?.percentage
+        }
+        
+        reloadButtons()
     }
     
     
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        //Timer must be invalidated, otherwise it will keep us in memory
-        self.timer?.invalidate()
+    @objc func onPlayerRefresh(){
+        if audioPlayer != KodiPlayer.player?.activeAudioPlayer{
+            audioPlayer = KodiPlayer.player?.activeAudioPlayer
+        }
     }
     
 
-    @objc func refreshPlayerStatus(){
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self,   selector: (#selector(refreshPlayerStatus)), userInfo: nil, repeats: false)
-        KodiPlayer.player?.getPlayerStatus(completion: { players, response, error in
-            if response?.statusCode == 200{
-                self.activePlayer = players!
-            }
-            else{   //Network Error or something else
-                self.timer?.invalidate()                        //It doesn´t make sense to refresh from now on
-                guard response != nil else{
-                    let errorstring = error?.localizedDescription ?? "No Response from host"
-                    
-                    let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: " + errorstring, actions: [NotificationButton(text: "Ok", style: .default)] )
-                    self.createNotification(notification: connectionFailedNotification)
-                    return
-                }
-                let connectionFailedNotification = Notification(title: "Internal Error", alertStyle: .alert, message: "Error: ", actions: [NotificationButton(text: "Ok", style: .default)] )
-                self.createNotification(notification: connectionFailedNotification)
-                }
-            })
+        
+    @objc func onItemRefreshed(){
+        if currentItem != KodiPlayer.player?.currentItem{
+            currentItem = KodiPlayer.player?.currentItem
+        }
+        if totalTime != KodiPlayer.player?.currentProperties?.totaltime{
+            totalTime = KodiPlayer.player?.currentProperties?.totaltime
+        }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onPropertiesRefreshed), name: .propertiesRefresh, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onPlayerRefresh), name: .playerRefresh, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onItemRefreshed), name: .itemChanged, object: nil)
+        
+    }
     
+    override func viewDidLoad(){
+        super.viewDidLoad()
+        audioPlayer = nil
+        currentItem = nil
+    }
     
-    @IBAction func setVolume(_ sender: UISlider) {
-        KodiPlayer.player?.setVolume(percentage: Int(sender.value*100.0)
-            , completion: {result, response, error in
-                guard let result = result else {
-                    print("setVolume: result = nil")
-                    return
-                }
-                
-                print("Volume set: \(result)")
+    override func viewWillDisappear(_ animated: Bool){
+        super.viewWillDisappear(animated)
+    }
+
+    
+    private func directionKeyCompletion(result: String?, response: HTTPURLResponse?, error: Error? ){
+        guard let _ = result else {
+            networkError(response: response, error: error)
+            return
+        }
+        //Once Buttons are modified to give visual Feedback to user
+        //return to normal state here
+        
+    }
+
+    
+    //MARK: Change UI Appearance if Status changed
+    func reloadPlayer(){
+        if audioPlayer != nil {
+            DispatchQueue.main.async { [weak self] in
+                self?.playerStatusView.isHidden = false
+            }
+        }
+        else {
+            DispatchQueue.main.async { [weak self] in
+                self?.playerStatusView.isHidden = true
+            }
+            
+        }
+    }
+    
+    func reloadImage(){
+        guard let item = currentItem else{
+            setImage(img: nil)
+            return
+        }
+        
+        let path = item.thumbnail
+        
+        if  path != nil ||  path == ""{
+            //generate img
+            let img = UIImage.imageWith(name: item.artist?[0])
+            setImage(img: img)
+            //setImage(img: nil)
+            return
+        }
+        
+        //We have an image
+        KodiPlayer.player?.fileDownload(kodiFileUrl: path!, completion: {
+            data, response, error in
+            
+            guard let data = data else {
+                print("reloadimg error while downloading image")
+                self.networkError(response: response, error: error)
+                return
+            }
+            
+            if let img = KodiPlayer.player?.getImage(kodiFileUrl: data.details.path){
+                self.setImage(img: img)
+            }
         })
         
     }
     
-    @IBAction func seekPosition(_ sender: UISlider) {
-        let percentage = sender.value*100.00
+    func reloadItem(){
+        guard let item = currentItem else {
+            self.setText(text: "")
+            //self.setImage(url: nil)
+            return
+        }
         
-        if let playerId = self.activeAudioPlayer?.playerid{
-            let params = SeekRequest(playerid: playerId, value: percentage)
-            KodiPlayer.player?.seekPosition(params: params, completion: {_,_,_ in })
+        self.setText(text: item.getFormated())
+    }
+    
+    
+    func reloadButtons(){
+        
+        if let shuffled = KodiPlayer.player?.currentProperties?.shuffled{
+            if shuffled == true{
+                DispatchQueue.main.async { [weak self] in
+                    self?.shuffleButton.imageView?.image = #imageLiteral(resourceName: "shuffle-50")
+                }
+            }
+            else{
+                DispatchQueue.main.async { [weak self] in
+                    self?.shuffleButton.imageView?.image = #imageLiteral(resourceName: "shuffle-grey-50")
+                }
+            }
+        }
+        
+        if let repeated = KodiPlayer.player?.currentProperties?.repeated{
+            let img : UIImage
+            
+            switch(repeated){
+            case .off:
+                img = #imageLiteral(resourceName: "repeat-grey")
+            case .one:
+                img = #imageLiteral(resourceName: "repeat-one-50")
+            case .all:
+                img = #imageLiteral(resourceName: "repeat-50")
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.repeatButton.imageView?.image = img
+            }
+        }
+    }
+    
+    func reloadGlobalTime(){
+        guard let totalTime = totalTime else{
+            DispatchQueue.main.async { [weak self] in
+                self?.totalTimeLabel.text = "00:00"
+            }
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.totalTimeLabel.text = totalTime.getFormatted()
+        }
+    }
+    
+    func reloadPercentage(){
+        guard let value = percentage else{
+            DispatchQueue.main.async { [weak self] in
+                self?.percentageSlider.value = 0.0
+            }
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            //print("percentage set: \(value)")
+            self?.percentageSlider.value = value/100
+        }
+        
+    }
+    
+    func reloadCurrentTime(){
+        guard let time = currentTime else{
+            DispatchQueue.main.async { [weak self] in
+                self?.currentTimeLabel.text = "00:00"
+            }
+            return
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.currentTimeLabel.text = time.getFormatted()
+        }
+    }
+    
+    //MARK: Some Helper Functions
+    
+    private func setImage(img: UIImage?){
+        DispatchQueue.main.async { [weak self] in
+            self?.previewImage.image = img
         }
     }
     
     
-    private func setImage(url: String){
+    private func setImage(url: String?){
+        guard let url = url else{
+            DispatchQueue.main.async { [weak self] in
+                self?.previewImage.image = nil
+            }
+            return
+        }
+        
+        if url == ""{
+            DispatchQueue.main.async { [weak self] in
+                self?.previewImage.image = nil
+            }
+            return
+        }
+        
         KodiPlayer.player?.fileDownload(kodiFileUrl: url, completion: {
             data, response, error in
             
@@ -367,26 +440,4 @@ class RemoteControlViewController: UIViewController{
             self?.previewLabel.text = text
         }
     }
-    
-    private func formatText(item: AudioItem) -> String{
-        var result = String()
-        result.append((item.label) + "\n")
-        result.append((item.albumartist[0]) + "\n")
-        result.append((item.album) + "\n")
-        return result
-    }
-    
-    // MARK: - Navigation
-    /*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("Prepare for segue")
-        
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
-
-

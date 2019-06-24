@@ -2,13 +2,11 @@
 //  KodiDataTypes.swift
 //  KoCo
 //
-//  Created by admin on 04.06.19.
+//  Created by dietWall on 04.06.19.
 //  Copyright © 2019 TH Rosenheim. All rights reserved.
 //
 
 import Foundation
-
-
 
 
 

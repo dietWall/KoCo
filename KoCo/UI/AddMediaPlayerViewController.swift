@@ -10,15 +10,11 @@ import UIKit
 
 class AddMediaPlayerViewController: UIViewController{
     
-    private lazy var authentificationFailedNotification = Notification(title: "Authentification failed!", alertStyle: .alert, message: "Player rejected username or password", actions: [NotificationButton(text: "Ok", style: .default)] )
+    private lazy var authentificationFailedNotification = UINotification(title: "Authentification failed!", alertStyle: .alert, message: "Player rejected username or password", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
-    private lazy var  successNotification = Notification(title: "Success!", alertStyle: .alert, message: "Successfully saved player", actions: [NotificationButton(text: "Ok", style: .default)] )
+    private lazy var  successNotification = UINotification(title: "Success!", alertStyle: .alert, message: "Successfully saved player", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
-    private lazy var invalidUrlNotification = Notification(title: "Invalid URL", alertStyle: .alert, message: "The given url is incorrect", actions: [NotificationButton(text: "Ok", style: .default)] )
-
-    //private lazy var saveButton = AlertButton(button: )
-    
-    //private let playerNotReachable = Alert()
+    private lazy var invalidUrlNotification = UINotification(title: "Invalid URL", alertStyle: .alert, message: "The given url is incorrect", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
     @IBOutlet weak var nameTextField: UITextField!
     
@@ -51,6 +47,8 @@ class AddMediaPlayerViewController: UIViewController{
             return
         }
         
+        print(player)
+        
         self.showSpinner(onView: self.view)
         
         player.getVersion(completion: { tmpVersion, response, error in
@@ -65,11 +63,11 @@ class AddMediaPlayerViewController: UIViewController{
                     self.createAlarmPlayerNotReachable(player: player)
                 case 401:
                     //TODO: Show: User/Password required!!!
-                    self.createNotification(notification: self.authentificationFailedNotification)
+                    self.presentUINotification(notification: self.authentificationFailedNotification)
                     self.jumpToTextField(textField: self.userNameTextField)
                 case 200:
                     self.appendPlayerToFile(player: player)
-                    self.createNotification(notification: self.successNotification)
+                    self.presentUINotification(notification: self.successNotification)
 
                 default:
                     print("\(self) not implemented error: statuscode: \(String(describing: response?.statusCode))")
@@ -90,7 +88,7 @@ class AddMediaPlayerViewController: UIViewController{
 
     
     private func invalidUrl(){
-        createNotification(notification: invalidUrlNotification)
+        presentUINotification(notification: invalidUrlNotification)
         jumpToTextField(textField: urlTextField)
     }
     

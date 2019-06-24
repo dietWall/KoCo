@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct GlobalTime: Codable{
+struct GlobalTime: Codable, Equatable{
     let hours: Int
     let milliseconds: Int
     let minutes: Int
@@ -38,5 +38,4 @@ struct GlobalTime: Codable{
         
         return result
     }
-    
 }

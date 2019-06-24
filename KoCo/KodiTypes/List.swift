@@ -14,7 +14,7 @@ enum Order : String, Codable{
     
 }
 
-struct SortType : Codable{
+struct ListSort : Codable{
     let order : Order
     let method: String
     let ignorearticle : Bool
@@ -27,7 +27,15 @@ struct ListLimits : Codable{
     let total   : Int?
 }
 
-enum ListFiedsAll : String, Codable{
+
+
+struct ListLimitsReturned : Codable{
+    let end : Int
+    let start : Int
+    let total : Int
+}
+
+enum ListFieldsAll : String, Codable{
     case title
     case artist
     case albumartist

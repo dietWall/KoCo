@@ -12,9 +12,6 @@ import UIKit
 
 extension KodiPlayer {
     
-    enum KodiErrors{
-        case NotReachable
-    }
     
     
     enum Direction : String{
@@ -26,20 +23,6 @@ extension KodiPlayer {
         case Back = "Input.Back"
     }
     
-    
-    /**
-     Description: Sends a request to server
-     - parameters:
-     - request: full Urlrequest to send
-     - completion: will be called if request is finished
-     */
-    private func request(request: URLRequest, completion: @escaping (Data?, HTTPURLResponse?, Error?)-> Void){
-        let defaultsession = URLSession(configuration: .default)
-        defaultsession.dataTask(with: request, completionHandler: {
-            data, response, error in
-            completion(data, response as? HTTPURLResponse, error)
-        }).resume()
-    }
     
     /**
      Description: Sends a request to server
@@ -100,27 +83,8 @@ extension KodiPlayer {
      Version is returned via completion
     */
     func getVersion(completion: @escaping (Version?, HTTPURLResponse?, Error? ) -> Void){
-        
         let urlRequest = URLRequest.kodiRequest(url: self.url, method: "JsonRpc.GetVersion" )
-        
-        request(request: urlRequest){
-            data, response, error in
-            
-            if let response = response{
-                if response.statusCode == 200{
-                    do {
-                        let result = try self.decodeJson(type: VersionObj.self, data: data!)
-                        completion(result.version, response, error)
-                        return
-                    }catch let decodeError{
-                        //decode as RpcError
-                        print("Error: \(decodeError)")
-                    }
-                }
-            }
-            
-            completion(nil, response, error)
-        }
+        genericRequest(request: urlRequest, completion: completion)
     }
     
     
@@ -129,26 +93,8 @@ extension KodiPlayer {
      result: "OK" if it worked
     */
     func navigate(to direction: Direction, completion: @escaping (String?, HTTPURLResponse?, Error?)->Void){
-        
         let urlRequest = URLRequest.kodiRequest(url: self.url, method: direction.rawValue)
-        
-        request(request: urlRequest){
-            data, response, error in
-            
-            if let response = response{
-                if response.statusCode == 200{
-                    do {
-                        let result = try self.decodeJson(type: String.self, data: data!)
-                        completion(result, response, error)
-                        return
-                    }catch let decodeError{
-                        //decode as RpcError
-                        print("Error: \(decodeError)")
-                    }
-                }
-            }
-            completion(nil, response, error)
-        }
+        genericRequest(request: urlRequest, completion: completion)
     }
     
     /**
@@ -157,26 +103,7 @@ extension KodiPlayer {
     */
     func inputExecuteAction(for action: Action, completion: @escaping (String?, HTTPURLResponse?, Error?)->Void){
         let urlRequest = URLRequest.kodiRequest(url: self.url, data: ActionParam(action: action), method: "Input.ExecuteAction")
-        
-        request(request: urlRequest){
-            data, response, error in
-            
-            if let response = response{
-                if response.statusCode == 200{
-                    do {
-                        let result = try self.decodeJson(type: String.self, data: data!)
-                        completion(result, response, error)
-                        return
-                    }catch let decodeError{
-                        
-                        //decode as RpcError
-                        print("Error: \(decodeError)")
-                        print("String: " + String(data: data!, encoding: .utf8)!)
-                    }
-                }
-            }
-            completion(nil, response, error)
-        }
+        genericRequest(request: urlRequest, completion: completion)
     }
 
     /**
@@ -185,33 +112,9 @@ extension KodiPlayer {
     */
     func getPlayerStatus(completion: @escaping ([ActivePlayer]?, HTTPURLResponse?, Error? )-> Void){
         let urlRequest = URLRequest.kodiRequest(url: self.url, method: "Player.GetActivePlayers")
-        
-        request(request: urlRequest){
-            data, response, error in
-            
-            if let response = response{
-                if response.statusCode == 200{
-                    do {
-                        let result = try self.decodeJson(type: [ActivePlayer].self, data: data!)
-                        //print("ActivePlayers: \(result)")
-                        completion(result, response, error)
-                        return
-                    }catch let decodeError{
-                        
-                        //decode as RpcError
-                        print("Error: \(decodeError)")
-                        print("String: " + String(data: data!, encoding: .utf8)!)
-                    }
-                }
-            }
-            completion(nil, response, error)
-        }
+        genericRequest(request: urlRequest, completion: completion)
     }
     
-    
-    func getAudioItem(){
-        
-    }
     
     
     func getArtists(properties: ArtistsGet, completion: @escaping (ArtistObj?, HTTPURLResponse?, Error?)->Void){
@@ -220,27 +123,22 @@ extension KodiPlayer {
     }
 
     
-    func getCurrentItem(properties: [ListFiedsAll], playerId: Int, completion: @escaping (AudioItemReturn?, HTTPURLResponse?, Error?)->Void){
+    func getCurrentItem(properties: [ListFieldsAll], playerId: Int, completion: @escaping (AudioItemReturn?, HTTPURLResponse?, Error?)->Void){
         let itemRequest = URLRequest.kodiRequest(url: self.url, data: CurrentItemRequest(properties: properties, playerid: playerId), method: "Player.GetItem")
         self.genericRequest(request: itemRequest, completion: completion)
     }
     
     
     func setVolume(percentage: Int, completion: @escaping (Int?, HTTPURLResponse?, Error?)->Void ){
-        print("Kodiplayer: Setvolume : \(percentage)")
         let volumeParams = VolumeParams(volume: percentage)
         let volumeRequest = URLRequest.kodiRequest(url: self.url, data: volumeParams, method: "Application.SetVolume")
         self.genericRequest(request: volumeRequest, completion: completion)
     }
     
     func seekPosition(params: SeekRequest,  completion: @escaping (PlayerPosition?, HTTPURLResponse?, Error?)-> Void){
-        print("Kodiplayer: SeekPosition: \(String(describing: params.value))")
         let seekRequest = URLRequest.kodiRequest(url: self.url, data: params, method: "Player.Seek")
         self.genericRequest(request: seekRequest, completion: completion)
     }
-    
-    
-
     
     func getPlayerProperties(params: PlayerPropertiesRequest, completion: @escaping (CurrentProperties?, HTTPURLResponse?, Error?)->Void){
         let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Player.GetProperties")
@@ -255,6 +153,8 @@ extension KodiPlayer {
 //MARK: KodiFileHandling API
 extension KodiPlayer{
     
+    //Description: Returns an URL for a file
+    //
     func fileDownload(kodiFileUrl: String, completion: @escaping (FileDownloadResponse?, HTTPURLResponse?, Error?)->Void){
         let fileRequest = FileDownloadRequest(path: kodiFileUrl)
         let request = URLRequest.kodiRequest(url: self.url, data: fileRequest, method: "Files.PrepareDownload")
@@ -263,7 +163,6 @@ extension KodiPlayer{
     
     
     func getImage(kodiFileUrl: String) -> UIImage?{
-        
         guard let url = URL(string: self.prefix + self.host + "/" +  kodiFileUrl) else{
             return nil
         }
@@ -272,15 +171,14 @@ extension KodiPlayer{
             guard let img = try UIImage.fromURL(url: url) else {
                 return nil
             }
-            
             return img
         }
         catch let error{
             print("error \(error) with: \(url.absoluteURL)")
         }
-        
         return nil
     }
+    
 }
 
 
@@ -289,7 +187,6 @@ extension KodiPlayer{
     
     func setShuffle(playerId: Int, shuffle: Bool, completion: @escaping (String?, HTTPURLResponse?, Error?)-> Void){
         let params = SetShuffleParams(playerid: playerId, shuffle: shuffle)
-        
         let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Player.SetShuffle")
         
         self.genericRequest(request: request, completion: completion)
@@ -299,6 +196,83 @@ extension KodiPlayer{
         let params = SetRepeatParams(playerid: playerId, repeatMode: mode)
         let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Player.SetRepeat")
         
+        self.genericRequest(request: request, completion: completion)
+    }
+    
+    func goTo(playlistPosition: Int, playerId: Int, completion: @escaping (String?, HTTPURLResponse?, Error? )->Void){
+        let params = GotoParams(playerid: playerId, to: playlistPosition)
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Player.GoTo")
+        
+        self.genericRequest(request: request, completion: completion)
+    }
+    
+    func open<ItemType: Codable>(libraryId: ItemType, completion: @escaping (String?, HTTPURLResponse?, Error? )->Void){
+        
+        let params = PlayerOpenParams(item: libraryId)
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Player.Open")
+        self.genericRequest(request: request, completion: completion)
+    }
+}
+
+
+//MARK: Playlist Api
+extension KodiPlayer{
+    
+    func playlistGetItems(params: PlaylistGetItemsParams, completion: @escaping (PlaylistGetItemsResponse?, HTTPURLResponse?, Error?)->Void){
+        
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Playlist.GetItems")
+        
+        self.genericRequest(request: request, completion: completion)
+    }
+    
+    func playListRemoveItem(playlistid: PlaylistId, item: Int, completion: @escaping (String?, HTTPURLResponse?, Error?) -> Void){
+        let params = PlaylistRemoveItemParams(playlistid: playlistid, position: item)
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Playlist.Remove")
+        
+        print("PlaylistremoveItem: RequestData: " + String(data: request.httpBody!, encoding: .utf8)!)
+        
+        self.genericRequest(request: request, completion: completion)
+    }
+    
+    func playListAddItem<ItemType : Codable>(playlistId : PlaylistId, item: ItemType , completion: @escaping (String?, HTTPURLResponse?, Error? )-> Void){
+        
+        let params = PlaylistAddItemsParams(playlistid: playlistId, item: item)
+        
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Playlist.Add")
+        
+        self.genericRequest(request: request, completion:  completion)
+    }
+    
+    func playListClear(playlistId: PlaylistId, completion: @escaping (String?, HTTPURLResponse?, Error?) -> Void){
+        let params = PlaylistClearParams(playlistid: playlistId)
+        
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "Playlist.Clear")
+        
+        self.genericRequest(request: request, completion: completion)
+    }
+    
+    
+    func getPlaylists(completion: @escaping([PlayList]?, HTTPURLResponse?, Error? )->Void){
+        let request = URLRequest.kodiRequest(url: self.url, method: "Playlist.GetPlaylists")
+        self.genericRequest(request: request, completion: completion)
+    }
+}
+
+
+//MARK: AlbumApi
+extension  KodiPlayer{
+    func libraryGetAlbums(properties: [AlbumProperties], limits: ListLimits, sort: ListSort, completion: @escaping (AlbumGetResponse?, HTTPURLResponse?, Error?) -> Void){
+        
+        let params = RequestAlbumsParams(properties: properties, limits: limits, sort: sort, includesingles: false, allroles: false)
+        
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "AudioLibrary.GetAlbums")
+        
+        self.genericRequest(request: request, completion: completion)
+    }
+    
+    func libraryGetSongs(properties: [SongProperties], limits: ListLimits, sort: ListSort, completion: @escaping(GetSongsResult?, HTTPURLResponse?, Error?)-> Void){
+        let params = GetSongsParams(properties: properties, limits: limits, sort: sort)
+        let request = URLRequest.kodiRequest(url: self.url, data: params, method: "AudioLibrary.GetSongs")
         self.genericRequest(request: request, completion: completion)
     }
     

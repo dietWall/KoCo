@@ -110,6 +110,8 @@ class DeviceOverviewTableViewController: UITableViewController{
         let tbvc = self.tabBarController as! KodiPlayerTabBarViewController
         //Select RemoteViewController as active ViewController
         tbvc.selectedIndex = 1
+        //make Bottom bar visible. => At start user is forced to choose a player for singleton
+        self.tabBarController?.tabBar.isHidden = false
     }
 
 }

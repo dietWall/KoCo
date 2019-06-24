@@ -32,12 +32,12 @@ enum ArtistProperties :String, Codable{
 struct ArtistsGet: Codable{
     let properties          : [ArtistProperties]
     let limits              : ListLimits
-    let sort                : SortType
+    let sort                : ListSort
 }
 
-struct ArtistReturn : Codable{
+struct AudioDetailsArtist : Codable{
     let artist                  : String?
-    let artistid                : Int?
+    let artistid                : Int
     let born                    : String?
     let compilationartist       : Bool?
     let description             : String?
@@ -55,8 +55,8 @@ struct ArtistReturn : Codable{
 }
 
 struct ArtistObj : Codable{
-    let artists : [ArtistReturn]?
-    let limits : ListLimits
+    let artists : [AudioDetailsArtist]
+    let limits : ListLimitsReturned
 }
 
 

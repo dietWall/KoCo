@@ -8,8 +8,9 @@
 
 import Foundation
 
+
 struct CurrentItemRequest: Codable{
-    let properties      : [ListFiedsAll]
+    let properties      : [ListFieldsAll]
     let playerid        : Int
 }
 
@@ -91,27 +92,41 @@ struct AudioDetailsMedia: Codable{
 }
 
 
-struct AudioItem :Codable{
-    let album                           :String
-    let albumartist                     :[String]
-    let artist                          :[String]
-    let displayartist                   :String
-    let fanart                          :String
-    let id                              :Int
-    let label                           :String
-    let thumbnail                       :String
-    let title                           :String
-    let track                           :Int
-    let type                            :String
+struct AudioItem :Codable, Equatable{
+    let album                           :String?
+    let albumartist                     :[String]?
+    let artist                          :[String]?
+    let displayartist                   :String?
+    let fanart                          :String?
+    let id                              :Int?
+    let label                           :String?
+    let thumbnail                       :String?
+    let title                           :String?
+    let track                           :Int?
+    let type                            :String?
     
     
     func getFormated() -> String{
         var result = String()
-        result.append(label + "\n")
-        result.append(albumartist[0] + "\n")
-        result.append(album + "\n")
+        
+        //result.append(label ?? "" + "\n")
+        if title != nil{
+            result.append(title! + "\n")
+        }
+        
+        if albumartist != nil{
+            result.append(albumartist![0] + "\n")
+        }
+        else if artist != nil{
+            result.append(artist![0] + "\n")
+        }
+        else{
+            result.append("\n")
+        }
+        
+        result.append(album ?? "" + "\n")
         return result
-    }
+    }    
 }
 
 struct AudioItemReturn: Codable{

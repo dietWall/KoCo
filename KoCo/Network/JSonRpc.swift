@@ -11,7 +11,8 @@ import Foundation
 //According to Specification from https://www.jsonrpc.org/specification#response_object
 
 struct JsonRpcRequest<ParamType : Codable> : Codable{
-	let jsonrpc         = "2.0"                 //MUST be "2.0"
+	
+    let jsonrpc         = "2.0"                 //MUST be "2.0"
     let id             : Int                    //MUST be String or Number(Int), can be freely choosen. We choose Int
     var method         : String                 //Describes the Server Method
     var params         : ParamType? = nil       //Depends on the Server Method

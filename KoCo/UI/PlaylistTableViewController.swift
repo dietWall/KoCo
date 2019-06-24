@@ -8,38 +8,97 @@
 
 import UIKit
 
+
 class PlaylistTableViewController: UITableViewController{
     
-    //var playList : String?
+    var activePlayer : ActivePlayer?
     
-    var activeAudioPlayer : ActivePlayer?{
+    var playlistElementsCount : Int?{
         didSet{
-            //download Playlist
-            
+            print("PlaylistViewController: count changed")
         }
+    }
+    var playlistId : Int?{
+        didSet{
+            print("PlaylistViewcontroller: PlaylistId changed")
+        }
+    }
+    var currentItemNr : Int?{
+        didSet{
+            print("PlaylistViewcontroller: Item changed")
+        }
+    }
+    
+    //A very special case: playlist replaced, but count is the same
+    var currentItem : AudioItem?
+
+    var shuffled : Bool?{
+        didSet{
+            print("PlaylistViewcontroller: shuffled changed")
+        }
+    }
+    
+    
+    func reload(){
+        print("PlaylistViewController: Reload")
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool){
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        NotificationCenter.default.addObserver(self, selector: #selector(statusRefreshed), name: .statusRefreshedNotificaten, object: nil)
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        KodiPlayer.player?.getPlayerStatus(completion: {
-            result, response, error in
-            
-            guard let result = result else {
-                //TODO Error to User
-                return
-            }
-            
-            self.activeAudioPlayer = result.filter{ $0.type == "audio" }[0]
-            
-        })
     }
-
     
+    
+    @objc func statusRefreshed(){
+        print("Playlist: Refreshed")
+        var updateTable = false
+        
+        if activePlayer != KodiPlayer.player?.activeAudioPlayer{
+            updateTable = true
+            activePlayer = KodiPlayer.player?.activeAudioPlayer
+        }
+        
+        if playlistId != KodiPlayer.player?.currentProperties?.playlistid{
+            updateTable = true
+            playlistId = KodiPlayer.player?.currentProperties?.playlistid
+        }
+        
+        if shuffled != KodiPlayer.player?.currentProperties?.shuffled{
+            updateTable = true
+            shuffled = KodiPlayer.player?.currentProperties?.shuffled
+        }
+        
+        if playlistElementsCount != KodiPlayer.player?.playlist?.count{
+            updateTable = true
+            playlistElementsCount = KodiPlayer.player?.playlist?.count
+        }
+        
+        if currentItemNr != KodiPlayer.player?.currentProperties?.position{
+            updateTable = true
+            currentItemNr = KodiPlayer.player?.currentProperties?.position
+        }
+        
+        if currentItem != KodiPlayer.player?.currentItem{
+            updateTable = true
+            currentItem = KodiPlayer.player?.currentItem
+        }
+        
+        if(updateTable){
+            reload()
+        }
+    }
     
     // MARK: - Table view data source
 
@@ -50,41 +109,94 @@ class PlaylistTableViewController: UITableViewController{
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        //No Player, but playlist is not empty
+        if KodiPlayer.player?.activeAudioPlayer == nil{
+            return 0
+        }
+        
+        return KodiPlayer.player?.playlist?.count ?? 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PlaylistCell2", for: indexPath)
+        
+        if let item = KodiPlayer.player?.playlist?[indexPath.row]{
+            cell.textLabel?.text = item.getFormated()
+            
+            if let id = item.id{
+                if let path = KodiPlayer.player?.imagePaths[id]{
+                    print("item has path")
+                    if let image = KodiPlayer.player?.getImage(kodiFileUrl: path){
+                        print("got image")
+                        cell.imageView?.image = image
+                        cell.imageView?.contentMode = .scaleAspectFill
+                        
+                    }
+                }
+                    //No image available: generate one
+                else{
+                    if let artistName = item.artist?[0]{
+                        cell.imageView?.image =  UIImage.imageWith(name: artistName)
+                    }
+                    
+                }
+            }
+            if indexPath.row == KodiPlayer.player?.currentProperties?.position{
+                cell.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+            }
+            else {
+                cell.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            }
+        }
         return cell
     }
-    */
+    
 
 
 
-    /*
+    
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            //Assure we are not playing the deleting track, otherwise kodi will report an error
+            
+            if indexPath.row == currentItemNr{
+                return
+            }
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.removeItem(itemNr: indexPath)
+            }
+            
+        }
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    private func removeItem(itemNr: IndexPath){
+        KodiPlayer.player?.playListRemoveItem(playlistid: (KodiPlayer.player?.currentProperties?.playlistid)!, item: itemNr.row, completion: {
+            result, response, error in
+            
+            guard let result = result else{
+                self.networkError(response: response, error: error)
+                return
+            }
+            if result != "OK"{
+                self.resultError()
+            }
+        })
     }
-    */
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //Playlist Items will be kept in Playlist if player stopped
+        if KodiPlayer.player?.activeAudioPlayer != nil{
+            KodiPlayer.player?.goTo(playlistPosition: indexPath.row, playerId: (KodiPlayer.player?.activeAudioPlayer?.playerid)!, completion: {
+                result, response, error in
+                
+                
+            })
+        }
+        
     }
+
 }
