@@ -72,9 +72,9 @@ class DeviceOverviewTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         KodiPlayer.player = mediaPlayers[indexPath.row]
         
-        let tbvc = self.tabBarController as! KodiPlayerTabBarViewController
+        let tbvc = self.tabBarController
         //Select RemoteViewController as active ViewController
-        tbvc.selectedIndex = 1
+        tbvc?.selectedIndex = 1
         //make Bottom bar visible. => At start user is forced to choose a player for singleton
         self.tabBarController?.tabBar.isHidden = false
     }
