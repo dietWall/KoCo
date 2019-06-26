@@ -247,6 +247,7 @@ class RemoteControlViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(onStatusRefreshed), name: .statusRefreshedNotificaten, object: nil)
+        navigationItem.title = KodiPlayer.player?.name
         
     }
     
@@ -254,7 +255,7 @@ class RemoteControlViewController: UIViewController{
         super.viewDidLoad()
         audioPlayer = nil
         currentItem = nil
-        navigationItem.title = KodiPlayer.player?.name
+       
     }
     
     override func viewWillDisappear(_ animated: Bool){

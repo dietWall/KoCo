@@ -48,6 +48,7 @@ class PlaylistTableViewController: UITableViewController{
     
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
+         navigationItem.title = KodiPlayer.player?.name
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,7 +59,7 @@ class PlaylistTableViewController: UITableViewController{
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(statusRefreshed), name: .statusRefreshedNotificaten, object: nil)
         
-        navigationItem.title = KodiPlayer.player?.name
+        //navigationItem.title = KodiPlayer.player?.name
 
     }
     

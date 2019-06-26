@@ -217,11 +217,12 @@ class MusicLibraryViewController: UIViewController, UITableViewDataSource, UITab
         mediaLibraryView.dataSource = self
         mediaLibraryView.delegate = self
         loadLibrary()
-        navigationItem.title = KodiPlayer.player?.name
+        
     }
     
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
+        navigationItem.title = KodiPlayer.player?.name
     }
     
     
