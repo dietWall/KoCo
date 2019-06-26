@@ -94,21 +94,24 @@ class KodiPlayer : Codable{
     
     var playlist : [AudioItem]?{
         didSet{
-    
-    if playlist != nil{
-        for item in playlist!{
-        
-        //non existing  thumbnails will be == ""
-        if let thumbnail = item.thumbnail, thumbnail != ""{
-            fileDownload(kodiFileUrl: thumbnail, completion: {
-                result, response, error in
-                if let result = result{
-                //just save the path for later usage
-                    self.imagePaths[item.id!] = result.details.path
+                if playlist != nil{
+                    for item in playlist!{
+                    
+                    //non existing  thumbnails will be == ""
+                    if let thumbnail = item.thumbnail, thumbnail != ""{
+                        fileDownload(kodiFileUrl: thumbnail, completion: {
+                            result, response, error in
+                            if let result = result{
+                            //just save the path for later usage
+                                self.imagePaths[item.id!] = result.details.path
+                            }
+                        })
+                    }
                 }
-            })
+            }
         }
     }
+    
     var timer : Timer?{
         didSet{
             print("Timer set")
