@@ -82,7 +82,11 @@ class KodiPlayer : Codable{
     
     var activePlayer : [ActivePlayer]?
     
-    var activeAudioPlayer : ActivePlayer?
+    var activeAudioPlayer : ActivePlayer?{
+        get{
+            return activePlayer?.getFirstAudioPlayer()
+        }
+    }
     
     var currentProperties : CurrentProperties?
     
