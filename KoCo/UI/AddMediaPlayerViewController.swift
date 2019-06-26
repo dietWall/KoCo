@@ -56,10 +56,6 @@ class AddMediaPlayerViewController: UIViewController{
             return
         }
         
-        guard  let _ = IPv4Address(urlstring) else {
-            invalidUrl()
-            return
-        }
         
         //Create Player
         guard let player =
