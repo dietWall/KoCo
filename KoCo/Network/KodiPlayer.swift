@@ -30,7 +30,7 @@ class KodiPlayer : Codable{
     {
         self.host = url
         self.name = name
-        self.user = user
+        self.user = user			
         self.password = password
         
         if url == ""{
@@ -138,6 +138,7 @@ class KodiPlayer : Codable{
     
     private func refreshItem(){
         let semaphore = DispatchSemaphore.init(value: 0)
+        
         if let playerId = activeAudioPlayer?.playerid{
             var item : AudioItem? = nil
             let properties : [ListFieldsAll] = [.title, .artist, .genre, .fanart, .thumbnail, .artistid, .album, .albumid, .setid]
@@ -148,31 +149,38 @@ class KodiPlayer : Codable{
                     return
                 }
                 item = result.item
+                
                 semaphore.signal()
                 
             })
+            
             semaphore.wait()
             self.currentItem = item
         }
     }
     
     private func refreshPlayerStatus(){
-        //get current Active Players
         let semaphore = DispatchSemaphore.init(value: 0)
         var statusResult : [ActivePlayer]? = nil
+        
         self.playerGetActivePlayers(completion: {
             result, response, error in
             
             guard let result = result else{
+                self.errorHandler(response: response, error: error)
                 semaphore.signal()
                 return
             }
+            
             statusResult = result
             semaphore.signal()
-            })
+            
+        })
+        
         semaphore.wait()
         self.activePlayer = statusResult
     }
+    
     
     private func refreshProperties(){
         guard let id = activeAudioPlayer?.playerid else {
@@ -231,6 +239,10 @@ class KodiPlayer : Codable{
         self.playlist = listResult
     }
     
+    
+    private func errorHandler(response: HTTPURLResponse?, error: Error?){
+        
+    }
     
 }
 
