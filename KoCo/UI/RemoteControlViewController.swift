@@ -84,6 +84,11 @@ class RemoteControlViewController: UIViewController{
         }
     }
     
+//    var currentProperties : CurrentProperties{
+//        didSet{
+//
+//        }
+//    }
 
     
     //MARK: ButtonEvents
@@ -242,13 +247,18 @@ class RemoteControlViewController: UIViewController{
         if percentage != KodiPlayer.player?.currentProperties?.percentage{
             percentage = KodiPlayer.player?.currentProperties?.percentage
         }
+        
+        reloadButtons()
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(onStatusRefreshed), name: .statusRefreshedNotificaten, object: nil)
         navigationItem.title = KodiPlayer.player?.name
-        
+        print("Remote: ViewWillAppear")
     }
     
     override func viewDidLoad(){
@@ -380,7 +390,6 @@ class RemoteControlViewController: UIViewController{
         }
         
         DispatchQueue.main.async { [weak self] in
-            //print("percentage set: \(value)")
             self?.percentageSlider.value = value/100
         }
         

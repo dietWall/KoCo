@@ -10,8 +10,8 @@ import UIKit
 import Network
 
 class AddMediaPlayerViewController: UIViewController{
-    //Here we need some own Notifications:
     
+    //Here we need some own Notifications:
     private lazy var authentificationFailedNotification = UINotification(title: "Authentification failed!", alertStyle: .alert, message: "Player rejected username or password", actions: [UINotificationButton(text: "Ok", style: .default)] )
     
     private lazy var  successNotification = UINotification(title: "Success!", alertStyle: .alert, message: "Successfully saved player", actions: [UINotificationButton(text: "Ok", style: .default)] )
@@ -29,14 +29,29 @@ class AddMediaPlayerViewController: UIViewController{
     
     @IBOutlet weak var passwordTextField: UITextField!
     
+    var editedPlayer : KodiPlayer?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Add Media Center"
         
+        print("ViewDidLoad")
         //Disappearing Keyboard
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing)))
     }
     
+
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        print("AddMediaViewController: ViewWillAppear \(String(describing: editedPlayer))")
+        
+        if let editedPlayer = editedPlayer{
+            fillPlayer(player: editedPlayer)
+        }
+    }
     
     @IBAction func cancelPressed(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
@@ -87,7 +102,6 @@ class AddMediaPlayerViewController: UIViewController{
                 case 200:
                     self.appendPlayerToFile(player: player)
                     self.presentUINotification(notification: self.successNotification)
-
                 default:
                     print("\(self) not implemented error: statuscode: \(String(describing: response?.statusCode))")
                     //Everything else defaults to invalid url
@@ -139,10 +153,28 @@ class AddMediaPlayerViewController: UIViewController{
 
     
     private func appendPlayerToFile(player: KodiPlayer){
+    
         var savedPlayers = [KodiPlayer]()
         savedPlayers.loadData()
+        
+        //remove editedPlayer from Array if set
+        
+        if let removedPlayer = editedPlayer{
+            print("removing player: \(String(describing: editedPlayer))")
+            savedPlayers.removePlayer(with: removedPlayer)
+        }
+        
+        
         savedPlayers += [player]
         savedPlayers.save()
+    }
+    
+    
+    private func fillPlayer(player: KodiPlayer){
+        self.nameTextField.text = player.name
+        self.urlTextField.text = player.host
+        self.userNameTextField.text = player.user
+        self.userNameTextField.text = player.password
     }
 
 }

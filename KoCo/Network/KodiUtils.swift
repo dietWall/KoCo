@@ -67,6 +67,18 @@ extension Array where Element: KodiPlayer{
         }
     }
     
+    mutating func removePlayer(with player: KodiPlayer){
+        
+        print("removePlayer: \(player.name), gesamt: \(count)")
+        
+        if let index = firstIndex(where: {
+            $0.name == player.name
+        }){
+            print("removePlayer: \(String(describing: index))")
+            self.remove(at: index)
+        }
+    }
+    
 }
 
 extension URLRequest{

@@ -24,6 +24,7 @@ class DeviceOverviewTableViewController: UITableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Media Centers"
+        setupLongPressGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +66,7 @@ class DeviceOverviewTableViewController: UITableViewController{
             //Von hier könnte auch ein Segue stattfinden
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
             performSegue(withIdentifier: "AddNewKodiPlayer", sender: self)
-        }    
+        }
     }
     
     // MARK: - Navigation
@@ -77,6 +78,44 @@ class DeviceOverviewTableViewController: UITableViewController{
         tbvc?.selectedIndex = 1
         //make Bottom bar visible. => At start user is forced to choose a player for singleton
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func setupLongPressGesture(){
+        let longPressGesture:UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress))
+        longPressGesture.minimumPressDuration = 1.0 // 1 second press
+        //longPressGesture.delegate = self
+        self.tableView.addGestureRecognizer(longPressGesture)
+    }
+    
+    
+    @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer){
+        print("Long Press handler")
+        if gestureRecognizer.state == .ended{
+            let touchPoint = gestureRecognizer.location(in: self.tableView)
+            
+            if let indexPath = tableView.indexPathForRow(at: touchPoint){
+                performSegue(withIdentifier: "AddNewKodiPlayer", sender: mediaPlayers[indexPath.row])
+            }
+        }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        print("Prepare for segue: \(String(describing: segue.identifier))")
+        
+        guard let addMediaViewController = segue.destination as? AddMediaPlayerViewController else {
+            print("Guard1 failed")
+            return
+        }
+        
+        guard let mediaPlayer = sender as? KodiPlayer else{
+            print("no sender received or casting failed")
+            return
+        }
+        
+        addMediaViewController.editedPlayer = mediaPlayer
+    
     }
 
 }

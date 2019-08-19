@@ -39,7 +39,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kca-7A-Xd4">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="fak-8w-q0v" kind="show" id="ahC-EV-G2u"/>
+                                <segue destination="fak-8w-q0v" kind="show" identifier="AddNewKodiPlayer" id="ahC-EV-G2u"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -628,7 +628,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL for a new device" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J2X-zG-yQs">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL or IP:PORT for a new device" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J2X-zG-yQs">
                                                 <rect key="frame" x="86.666666666666657" y="0.0" width="311.33333333333337" height="30"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="textColor"/>
